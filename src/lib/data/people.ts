@@ -55,7 +55,7 @@ export const committees: Committee[] = [
   {
     id: "advisory",
     title: "Advisory Committee",
-    description: "From the current site",
+    description: "Senior advisers who guide the federation.",
     href: "/about/advisory-committee",
     members: [],
     placeholders: 8,
@@ -63,7 +63,7 @@ export const committees: Committee[] = [
   {
     id: "committee",
     title: "Committee Members",
-    description: "Photo, name, role, state",
+    description: "The members who run the federation's work, state by state.",
     href: "/about/committee",
     members: [{ initials: "FA", name: "Firozze K. Abbasi", role: "President" }],
     placeholders: 7,
@@ -71,7 +71,7 @@ export const committees: Committee[] = [
   {
     id: "core",
     title: "Core Members",
-    description: "Photo, name, role, state",
+    description: "The core group that runs tournaments and districts.",
     href: "/about/core-members",
     members: [{ initials: "FA", name: "Firozze K. Abbasi", role: "President" }],
     placeholders: 7,

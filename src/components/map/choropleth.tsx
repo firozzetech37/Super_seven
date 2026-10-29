@@ -6,7 +6,7 @@ import { statusMeta, type Status } from "@/lib/data/locations";
 import type { MapData, Shape } from "@/lib/geo/types";
 import { cn } from "@/lib/utils";
 
-export type MapShape = Shape & { status: Status; href?: string };
+export type MapShape = Shape & { status: Status; href?: string; /** Optional extra tooltip line (e.g. "26 districts"). */ note?: string };
 
 const fill: Record<Status, string> = { onboarded: "#7bc67e", talks: "#f2d45c", unreached: "#f4a9a9" };
 
@@ -22,6 +22,8 @@ export function Choropleth({
   muted = false,
   interactive = true,
   labels = "none",
+  highlightColor = "#0f2e63",
+  dimOpacity = 0.62,
   className,
 }: {
   map: MapData;
@@ -32,6 +34,10 @@ export function Choropleth({
   muted?: boolean;
   interactive?: boolean;
   labels?: "none" | "all";
+  /** Outline colour of the highlighted shape on a full-colour map (opt-in; navy by default). */
+  highlightColor?: string;
+  /** Opacity of the other shapes while one is highlighted (opt-in; 0.62 by default). */
+  dimOpacity?: number;
   className?: string;
 }) {
   const router = useRouter();
@@ -68,7 +74,7 @@ export function Choropleth({
           const dimmed = Boolean(highlight) && !isHighlight && !muted;
           const style = muted
             ? { fill: isHighlight ? "rgba(217,174,86,0.65)" : "rgba(255,255,255,0.08)", stroke: isHighlight ? "#d9ae56" : "rgba(255,255,255,0.28)", strokeWidth: isHighlight ? 1.4 : 0.6 }
-            : { fill: fill[s.status], stroke: "#ffffff", strokeWidth: isHighlight ? 2.4 : 0.9, opacity: dimmed ? 0.62 : 1 };
+            : { fill: fill[s.status], stroke: "#ffffff", strokeWidth: isHighlight ? 2.4 : 0.9, opacity: dimmed ? dimOpacity : 1 };
           const content = (
             <path
               d={s.d}
@@ -105,7 +111,7 @@ export function Choropleth({
         {highlight && !muted
           ? shapes
               .filter((s) => s.slug === highlight)
-              .map((s) => <path key={`hl-${s.slug}`} d={s.d} fill="none" stroke="#0f2e63" strokeWidth={2.4} strokeLinejoin="round" className="pointer-events-none" />)
+              .map((s) => <path key={`hl-${s.slug}`} d={s.d} fill="none" stroke={highlightColor} strokeWidth={2.4} strokeLinejoin="round" className="pointer-events-none" />)
           : null}
         {labels === "all"
           ? shapes.map((s) => (
@@ -135,6 +141,7 @@ export function Choropleth({
             <span aria-hidden="true" className={cn("size-2 rounded-full", statusMeta[hovered.status].dot)} />
             {statusMeta[hovered.status].label}
           </p>
+          {hovered.note ? <p className="mt-1 text-xs text-white/60">{hovered.note}</p> : null}
         </div>
       ) : null}
     </div>

@@ -19,19 +19,23 @@ export function SubmitButton({
       type="submit"
       disabled={pending}
       className={cn(
-        "group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-bold text-navy shadow-[0_10px_24px_rgba(4,15,42,0.25)] transition hover:-translate-y-0.5 hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-royal/40 disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0",
+        "group inline-flex h-14 items-center justify-center gap-3 rounded-full bg-gold pl-7 pr-2 text-[15px] font-bold text-navy shadow-[0_14px_30px_rgba(4,15,42,0.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-gold-deep hover:shadow-[0_20px_40px_rgba(4,15,42,0.32)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-navy disabled:cursor-wait disabled:opacity-80 disabled:hover:translate-y-0",
         className,
       )}
     >
       {pending ? (
         <>
-          <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
           {pendingLabel}
+          <span aria-hidden="true" className="grid size-10 place-items-center rounded-full bg-navy text-gold">
+            <LoaderCircle className="size-4 animate-spin" />
+          </span>
         </>
       ) : (
         <>
           {children}
-          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+          <span aria-hidden="true" className="grid size-10 place-items-center rounded-full bg-navy text-gold transition duration-300 group-hover:bg-white group-hover:text-navy">
+            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+          </span>
         </>
       )}
     </button>

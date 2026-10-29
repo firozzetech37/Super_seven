@@ -228,6 +228,9 @@
     animation: reveal-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
     animation-delay: calc(var(--reveal-delay, 0ms) + var(--stagger, 70ms) * var(--i, 0));
   }
+  html.js .reveal-stagger[data-inview][data-reveal="scale"] > * {
+    animation-name: reveal-in-scale;
+  }
   .reveal-stagger > :nth-child(1) { --i: 0; }
   .reveal-stagger > :nth-child(2) { --i: 1; }
   .reveal-stagger > :nth-child(3) { --i: 2; }
@@ -319,6 +322,7 @@
     html.js .reveal[data-inview][data-reveal],
     html.js .reveal-stagger:not([data-inview]) > *,
     html.js .reveal-stagger[data-inview] > *,
+    html.js .reveal-stagger[data-inview][data-reveal] > *,
     html.js .page-enter,
     .parallax-slow {
       opacity: 1;
@@ -450,3 +454,21 @@ html:not(.js) .splash {
 @utility font-odia { font-family: "Noto Sans Oriya", "Oriya Sangam MN", Kalinga, "Nirmala UI", system-ui, sans-serif; }
 @utility font-urdu { font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", "Geeza Pro", "Segoe UI", system-ui, sans-serif; }
 @utility font-gurmukhi { font-family: "Noto Sans Gurmukhi", "Gurmukhi Sangam MN", Raavi, "Nirmala UI", system-ui, sans-serif; }
+
+/* Featured story stage: slow zoom on the active photo, and the gold time-to-next bar. */
+@keyframes kenburns {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.09;
+  }
+}
+@keyframes story-progress {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}

@@ -27,13 +27,6 @@ export function MobileLineup() {
         </Link>
       </div>
 
-      <Link
-        href="/register/district"
-        className="block rounded-full bg-gold px-5 py-3 text-center font-bold text-navy shadow-md"
-      >
-        Register your District Association →
-      </Link>
-
       <Carousel opts={{ align: "start", loop: true }} className="pt-1">
         <CarouselContent className="-ml-3">
           {doors.map((d) => (

@@ -8,6 +8,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { isNavActive } from "@/lib/nav";
 import { navigation, registerCta, site, type NavItem } from "@/lib/site";
+import { usePastHero } from "./use-past-hero";
 
 /** Re-mounts on every route change so any open dropdown closes without an effect. */
 export function DesktopNav() {
@@ -20,6 +21,7 @@ function MenuBar({ pathname }: { pathname: string }) {
   const [stuck, setStuck] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const showRegister = usePastHero();
 
   // The compact brand appears once the big header has scrolled out of view.
   useEffect(() => {
@@ -102,7 +104,12 @@ function MenuBar({ pathname }: { pathname: string }) {
 
         <Link
           href={registerCta.href}
-          className="group ml-auto inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-gold px-4 text-[13px] font-bold uppercase tracking-[0.08em] text-navy shadow-[0_4px_14px_rgba(4,15,42,0.35)] ring-1 ring-white/40 transition hover:-translate-y-px hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
+          tabIndex={showRegister ? 0 : -1}
+          aria-hidden={!showRegister}
+          className={cn(
+            "group ml-auto inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-gold px-4 text-[13px] font-bold uppercase tracking-[0.08em] text-navy shadow-[0_4px_14px_rgba(4,15,42,0.35)] ring-1 ring-white/40 transition duration-300 hover:-translate-y-px hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60",
+            !showRegister && "pointer-events-none translate-y-1 scale-90 opacity-0",
+          )}
         >
           {registerCta.label}
           <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />

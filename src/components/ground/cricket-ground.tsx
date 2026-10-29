@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Camera, ChevronDown, MousePointerClick, Newspaper } from "lucide-react";
+import { Camera, ChevronDown, MousePointerClick, Newspaper } from "lucide-react";
+import { homeHeroId } from "@/components/layout/use-past-hero";
 import { contentAreas, doors } from "@/lib/site";
 import { Ball } from "./ball";
 import { Bat } from "./bat";
@@ -22,6 +23,7 @@ const enter = "motion-safe:animate-in motion-safe:fade-in motion-safe:fill-mode-
 export function CricketGround() {
   return (
     <section
+      id={homeHeroId}
       className="relative isolate flex flex-col overflow-hidden bg-navy-hero text-white md:min-h-[calc(100svh-7.5rem)] lg:min-h-[calc(100svh-10.25rem)]"
       aria-label="Main menu: the cricket ground"
     >
@@ -34,7 +36,7 @@ export function CricketGround() {
       </div>
 
       <div className="mx-auto hidden w-full max-w-[1920px] flex-1 grid-cols-[150px_minmax(0,1fr)_210px] items-stretch gap-5 px-4 py-6 md:grid lg:grid-cols-[200px_minmax(0,1fr)_280px] lg:gap-8 lg:px-6 lg:py-8 xl:grid-cols-[220px_minmax(0,1fr)_300px] xl:px-8 2xl:grid-cols-[240px_minmax(0,1fr)_320px] 2xl:gap-10 2xl:px-10">
-        <div className="flex flex-col items-center justify-between gap-4">
+        <div className="flex flex-col items-center justify-center gap-4">
           <div className="flex flex-1 flex-col items-center justify-center gap-6">
             <div className={`motion-safe:slide-in-from-left-6 ${enter}`}>
               <div className="motion-safe:animate-float">
@@ -74,13 +76,6 @@ export function CricketGround() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-4">
-          <Link
-            href="/register/district"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-4 py-3 text-center text-sm font-bold text-navy lg:px-5 lg:text-[15px] shadow-[0_10px_24px_rgba(4,15,42,0.45)] ring-1 ring-white/40 transition duration-200 hover:-translate-y-0.5 hover:bg-gold-deep focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white"
-          >
-            Register your District Association
-            <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
-          </Link>
           <div className="flex flex-1 flex-col items-center justify-center gap-6">
             <div className={`motion-safe:slide-in-from-right-6 ${enter}`}>
               <div className="motion-safe:animate-float-slow">

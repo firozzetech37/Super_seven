@@ -37,6 +37,14 @@ export function Splash() {
     return () => window.clearTimeout(t);
   }, [phase]);
 
+  // `html.splashing` pauses scroll-reveal and page-enter animations (globals.css) until the splash starts fading.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (phase === "show") root.classList.add("splashing");
+    else root.classList.remove("splashing");
+    return () => root.classList.remove("splashing");
+  }, [phase]);
+
   if (phase === "gone") return null;
 
   return (

@@ -10,6 +10,7 @@ import { PersonCard } from "@/components/people/person-card";
 import { leadership } from "@/lib/data/people";
 import { enquiryTypes, type EnquiryType } from "@/lib/forms";
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -38,11 +39,11 @@ export default function ContactPage(props: PageProps<"/contact">) {
       <section id="leadership" className="scroll-mt-28 bg-surface py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow="Leadership" title="Who to write to" description="President, Secretary and Chief Operating Officer, with direct contact." />
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <Reveal stagger className="mt-10 grid gap-6 md:grid-cols-3">
             {leadership.map((p) => (
               <PersonCard key={p.id} person={p} />
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import { cacheLife } from "next/cache";
 import { ArrowUp, Mail, MapPin, Phone } from "lucide-react";
 import { footerColumns, legalLinks, site } from "@/lib/site";
 import { SocialLinks } from "./social-links";
+import { Reveal } from "@/components/motion/reveal";
 
 /** Four-column footer on every page (borrowed from BCCI and TCAI's "Let's Connect"). */
 export function Footer() {
@@ -15,7 +16,7 @@ export function Footer() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(217,174,86,0.85)_18%,rgba(217,174,86,0.85)_82%,transparent)]"
       />
       <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
+        <Reveal stagger className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
           <div className="md:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-4">
               <span className="rounded-full bg-gradient-to-br from-gold to-gold-deep p-[3px]">
@@ -67,7 +68,7 @@ export function Footer() {
               </li>
             </ul>
           </div>
-        </div>
+        </Reveal>
 
         <div className="mt-12 flex flex-col gap-4 border-t border-white/10 pt-6 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
           <ul className="flex flex-wrap items-center gap-x-2 gap-y-1">

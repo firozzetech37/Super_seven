@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Download, ExternalLink, FileText } from "lucide-react";
 import { JumpLinks } from "@/components/fixtures/jump-links";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
+import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
+import { PageFan } from "@/components/rules/page-fan";
 import { RuleBook } from "@/components/rules/rule-book";
 import { rulebookLanguages, rulebookPdf, scriptClass } from "@/lib/data/rulebook";
 import { glossary, quickFacts, ruleSections, rulesPdf } from "@/lib/data/rules";
@@ -35,14 +36,14 @@ export default function RulesPage() {
 
       <section className="bg-white py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Reveal stagger as="dl" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {quickFacts.map((f) => (
               <div key={f.label} className="rounded-2xl bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] p-5 text-white ring-1 ring-white/10">
-                <dd className="font-heading text-4xl font-bold text-gold">{f.value}</dd>
+                <dd className="font-heading text-4xl font-bold text-gold">{/^\d+$/.test(f.value) ? <CountUp value={Number(f.value)} /> : f.value}</dd>
                 <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">{f.label}</dt>
               </div>
             ))}
-          </dl>
+          </Reveal>
         </div>
       </section>
 
@@ -111,28 +112,8 @@ export default function RulesPage() {
               </a>
             </div>
           </Reveal>
-          <Reveal delay={150} className="hidden lg:block">
-            <div aria-hidden="true" className="relative mx-auto h-[320px] w-[340px]">
-              {["bengali", "hindi", "tamil"].map((slug, i) => {
-                const l = rulebookLanguages.find((x) => x.slug === slug)!;
-                return (
-                  <Image
-                    key={slug}
-                    src={l.thumb}
-                    alt=""
-                    width={720}
-                    height={932}
-                    sizes="200px"
-                    className={cn(
-                      "absolute left-1/2 top-1/2 w-[190px] -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-[0_24px_60px_rgba(4,15,42,0.5)] ring-1 ring-white/20",
-                      i === 0 && "-translate-x-[82%] -rotate-[12deg] motion-safe:animate-float-slow",
-                      i === 1 && "z-10 motion-safe:animate-float",
-                      i === 2 && "-translate-x-[18%] rotate-[12deg] motion-safe:animate-float-slow",
-                    )}
-                  />
-                );
-              })}
-            </div>
+          <Reveal delay={150} from="right" className="hidden lg:block">
+            <PageFan className="lg:scale-90 xl:scale-100" />
           </Reveal>
         </div>
       </section>
@@ -140,14 +121,14 @@ export default function RulesPage() {
       <section id="glossary" className="scroll-mt-28 bg-white py-14 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow="Glossary" title="Terms used on this site" />
-          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal stagger as="dl" className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {glossary.map((g) => (
               <div key={g.term} className="rounded-2xl bg-surface p-5 ring-1 ring-line">
                 <dt className="font-heading text-lg font-bold text-navy">{g.term}</dt>
                 <dd className="mt-1.5 text-[15px] leading-relaxed text-slate-600">{g.definition}</dd>
               </div>
             ))}
-          </dl>
+          </Reveal>
         </div>
       </section>
     </>

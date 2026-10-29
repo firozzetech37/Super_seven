@@ -3,13 +3,16 @@ import { Footer } from "@/components/layout/footer";
 import { MobileCta } from "@/components/layout/mobile-cta";
 import { Header } from "@/components/layout/header";
 import { Ticker } from "@/components/layout/ticker";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
       <Ticker />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        <PageTransition>{children}</PageTransition>
+      </main>
       <Footer />
       <MobileCta />
       <BackToTop />

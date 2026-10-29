@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { BookOpen, ClipboardCheck, Download, Languages, MessageSquareWarning } from "lucide-react";
@@ -8,8 +7,9 @@ import { RowsSkeleton } from "@/components/layout/page-skeleton";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
+import { PageFan } from "@/components/rules/page-fan";
 import { RulebookExplorer } from "@/components/rules/rulebook-explorer";
-import { rulebookCover, rulebookLanguages, rulebookPages, rulebookPdf, rulebookReviewRecordPage, scriptClass } from "@/lib/data/rulebook";
+import { rulebookLanguages, rulebookPages, rulebookPdf, rulebookReviewRecordPage, scriptClass } from "@/lib/data/rulebook";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -44,39 +44,6 @@ const notes = [
     cta: "Write to SSCFI",
   },
 ];
-
-/** Three page previews fanned like a hand of cards. */
-function PageFan() {
-  const [a, b, c] = ["bengali", "hindi", "tamil"].map((s) => rulebookLanguages.find((l) => l.slug === s)!);
-  return (
-    <div aria-hidden="true" className="relative mx-auto h-[300px] w-[300px] sm:h-[340px] sm:w-[360px]">
-      {[a, b, c].map((l, i) => (
-        <Image
-          key={l.slug}
-          src={l.thumb}
-          alt=""
-          width={720}
-          height={932}
-          sizes="220px"
-          className={cn(
-            "absolute left-1/2 top-1/2 w-[190px] -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-[0_24px_60px_rgba(4,15,42,0.5)] ring-1 ring-white/20 transition duration-500 sm:w-[210px]",
-            i === 0 && "-rotate-[12deg] -translate-x-[82%] motion-safe:animate-float-slow",
-            i === 1 && "z-10 motion-safe:animate-float",
-            i === 2 && "rotate-[12deg] -translate-x-[18%] motion-safe:animate-float-slow",
-          )}
-        />
-      ))}
-      <Image
-        src={rulebookCover}
-        alt=""
-        width={720}
-        height={932}
-        sizes="120px"
-        className="absolute -bottom-2 -right-2 z-20 w-[110px] rotate-6 rounded-md shadow-2xl ring-1 ring-white/30"
-      />
-    </div>
-  );
-}
 
 export default function RulebookPage() {
   return (
@@ -121,14 +88,14 @@ export default function RulebookPage() {
               Sanskrit to Manipuri, Devanagari to Nastaliq. The same forty rules and glossary in every section, with a rule index at the top of each
               so an umpire, scorer or captain can find a clause in seconds.
             </p>
-            <dl className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Reveal stagger as="dl" className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {stats.map((s) => (
                 <div key={s.label} className="rounded-2xl bg-white/10 px-4 py-4 ring-1 ring-white/15 backdrop-blur">
                   <dd className="font-heading text-3xl font-bold text-gold">{s.plain ? s.value : <CountUp value={s.value} />}</dd>
                   <dt className="mt-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white/70">{s.label}</dt>
                 </div>
               ))}
-            </dl>
+            </Reveal>
             <ul className="mt-6 flex flex-wrap gap-2">
               {rulebookLanguages.map((l) => (
                 <li key={l.slug}>
@@ -144,7 +111,7 @@ export default function RulebookPage() {
               ))}
             </ul>
           </Reveal>
-          <Reveal delay={150} className="hidden lg:block">
+          <Reveal delay={150} from="right" className="hidden lg:block">
             <PageFan />
           </Reveal>
         </div>

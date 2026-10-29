@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, SearchX } from "lucide-react";
 import { popularSearches, search, type SearchEntry } from "@/lib/search-index";
+import { Reveal } from "@/components/motion/reveal";
 
 function groupBySection(entries: SearchEntry[]) {
   const groups = new Map<string, SearchEntry[]>();
@@ -82,7 +83,7 @@ export function SearchResults({ query }: { query: string }) {
             <span aria-hidden="true" className="h-px w-8 bg-gold-deep" />
             {section}
           </h2>
-          <ul className="mt-4 grid gap-4 md:grid-cols-2">
+          <Reveal stagger as="ul" className="mt-4 grid gap-4 md:grid-cols-2">
             {entries.map((e) => (
               <li key={e.id}>
                 <Link
@@ -98,7 +99,7 @@ export function SearchResults({ query }: { query: string }) {
                 </Link>
               </li>
             ))}
-          </ul>
+          </Reveal>
         </section>
       ))}
     </div>

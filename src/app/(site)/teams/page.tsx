@@ -7,6 +7,7 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { OfficialCard } from "@/components/teams/official-card";
 import { StateUnitCard } from "@/components/teams/state-unit-card";
 import { archiveTeams2014, officials, stateUnits } from "@/lib/data/teams";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Teams",
@@ -43,11 +44,11 @@ export default function TeamsPage() {
               </Link>
             }
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <Reveal stagger className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {stateUnits.map((u) => (
               <StateUnitCard key={u.id} unit={u} />
             ))}
-          </div>
+          </Reveal>
 
           <div className="mt-14 rounded-3xl bg-surface p-6 ring-1 ring-line sm:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -133,7 +134,7 @@ export default function TeamsPage() {
             title="Umpires, scorers and coaches"
             description="The officials who run Super Seven matches. The federation is building its panel; two of its umpires are below."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {officials.map((o) => (
               <OfficialCard key={o.id} official={o} />
             ))}
@@ -153,7 +154,7 @@ export default function TeamsPage() {
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </span>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

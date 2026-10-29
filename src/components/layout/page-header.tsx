@@ -22,7 +22,7 @@ export function PageHeader({
   return (
     <section className="relative isolate overflow-hidden bg-stadium text-white">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <GroundWatermark className="absolute -right-28 -top-20 w-[640px] text-white/[0.07] lg:-top-32 lg:w-[760px]" />
+        <GroundWatermark className="parallax-slow absolute -right-28 -top-20 w-[640px] text-white/[0.07] lg:-top-32 lg:w-[760px]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.05),transparent_40%)]" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(217,174,86,0.85)_18%,rgba(217,174,86,0.85)_82%,transparent)]" />
       </div>
@@ -55,14 +55,14 @@ export function PageHeader({
           </nav>
           {eyebrow ? (
             <p className="mt-6 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.24em] text-gold">
-              <span aria-hidden="true" className="h-px w-8 bg-gold" />
+              <span aria-hidden="true" className="eyebrow-dash h-px w-8 bg-gold" />
               {eyebrow}
             </p>
           ) : null}
           <h1 className="mt-4 font-heading text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-[3.4rem]">{title}</h1>
           {description ? <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/80">{description}</p> : null}
         </Reveal>
-        {aside ? <Reveal delay={150} className="shrink-0">{aside}</Reveal> : null}
+        {aside ? <Reveal delay={150} from="right" className="shrink-0">{aside}</Reveal> : null}
       </div>
     </section>
   );

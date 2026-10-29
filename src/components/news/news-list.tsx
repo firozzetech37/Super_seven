@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Archive, CalendarDays, Inbox } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatNewsDate, newsTypeLabel, newsTypes, type NewsItem, type NewsType } from "@/lib/data/news";
+import { Reveal } from "@/components/motion/reveal";
 
 export function NewsList({ items }: { items: NewsItem[] }) {
   const [filter, setFilter] = useState<NewsType | "all">("all");
@@ -36,13 +37,13 @@ export function NewsList({ items }: { items: NewsItem[] }) {
       </div>
 
       {visible.length ? (
-        <ul className="mt-8 grid gap-6 md:grid-cols-2">
+        <Reveal stagger as="ul" className="mt-8 grid gap-6 md:grid-cols-2">
           {visible.map((n) => (
             <li key={n.id} className={cn(n.featured && "md:col-span-2")}>
               <NewsCard item={n} />
             </li>
           ))}
-        </ul>
+        </Reveal>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-3 rounded-3xl bg-surface p-10 text-center ring-1 ring-line">
           <span className="grid size-12 place-items-center rounded-full bg-royal/10 text-royal">

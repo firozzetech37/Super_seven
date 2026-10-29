@@ -5,6 +5,7 @@ import { RoleCard } from "@/components/careers/role-card";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { careerSteps, roles } from "@/lib/data/careers";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -32,19 +33,19 @@ export default function CareersPage() {
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <SectionHeading eyebrow="Open roles" title="Four ways to be part of a match day" description="Roles are assigned per tournament or per season by a district or state association. Terms are agreed when SSCFI calls back." />
-        <ul className="mt-10 grid gap-6 md:grid-cols-2">
+        <Reveal stagger as="ul" className="mt-10 grid gap-6 md:grid-cols-2">
           {roles.map((r) => (
             <li key={r.slug}>
               <RoleCard role={r} />
             </li>
           ))}
-        </ul>
+        </Reveal>
       </section>
 
       <section className="border-t border-line bg-surface py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow="How it works" title="Three steps from enquiry to your first match" />
-          <ol className="mt-10 grid gap-4 md:grid-cols-3">
+          <Reveal stagger as="ol" className="mt-10 grid gap-4 md:grid-cols-3">
             {careerSteps.map((s) => (
               <li key={s.n} className="relative rounded-3xl bg-white p-7 ring-1 ring-line">
                 <span className="grid size-11 place-items-center rounded-full bg-gold font-heading text-xl font-bold text-navy">{s.n}</span>
@@ -52,7 +53,7 @@ export default function CareersPage() {
                 <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{s.text}</p>
               </li>
             ))}
-          </ol>
+          </Reveal>
         </div>
       </section>
     </>

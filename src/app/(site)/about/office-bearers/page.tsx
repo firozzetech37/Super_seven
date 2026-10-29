@@ -6,6 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { officeBearers2014 } from "@/lib/data/people";
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Office Bearers",
@@ -37,13 +38,13 @@ export default function OfficeBearersPage() {
         <div className="mt-12">
           <SectionHeading eyebrow="Federation" title="Office bearers" description="Designation, name and direct contact where it was published." />
         </div>
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal stagger as="ul" className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {officeBearers2014.map((p) => (
             <li key={p.id}>
               <OfficeBearerCard person={p} />
             </li>
           ))}
-        </ul>
+        </Reveal>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6">

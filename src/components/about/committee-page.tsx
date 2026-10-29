@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { SectionPlaceholder } from "@/components/layout/section-placeholder";
 import { committees } from "@/lib/data/people";
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/motion/reveal";
 
 /** Shared page for the three committee lists until SSCFI supplies names and photos. */
 export function CommitteePage({ id, title, description }: { id: string; title: string; description: string }) {
@@ -22,7 +23,7 @@ export function CommitteePage({ id, title, description }: { id: string; title: s
       {members.length ? (
         <section className="mx-auto max-w-7xl px-4 pt-12 sm:px-6">
           <SectionHeading eyebrow="Confirmed" title="Known members" />
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal stagger as="ul" className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {members.map((m) => (
               <li key={m.name} className="flex items-center gap-4 rounded-2xl bg-white p-5 ring-1 ring-line">
                 <span className="grid size-14 shrink-0 place-items-center rounded-full bg-royal font-bold text-white ring-4 ring-gold/80">
@@ -37,7 +38,7 @@ export function CommitteePage({ id, title, description }: { id: string; title: s
                 </span>
               </li>
             ))}
-          </ul>
+          </Reveal>
         </section>
       ) : null}
 

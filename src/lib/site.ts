@@ -24,9 +24,9 @@ export const site = {
     {
       id: "facebook",
       label: "Facebook",
-      href: "https://www.facebook.com/pages/SSCFI/1422244844712722",
+      href: "https://www.facebook.com/profile.php?id=61595635310951",
     },
-    { id: "instagram", label: "Instagram", href: "https://www.instagram.com/" },
+    { id: "instagram", label: "Instagram", href: "https://www.instagram.com/super7indiancricketteam/" },
     { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/" },
     {
       id: "youtube",

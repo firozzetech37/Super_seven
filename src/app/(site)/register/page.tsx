@@ -4,6 +4,7 @@ import { ArrowRight, Building2, Lock, User, Users } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { RegistrationSteps } from "@/components/register/registration-steps";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "New Registration",
@@ -68,7 +69,7 @@ export default function RegisterPage() {
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow="Choose a form" title="Who are you registering?" />
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+          <Reveal stagger className="mt-10 grid gap-6 lg:grid-cols-3">
             {forms.map(({ title, href, icon: Icon, intro, fields, cta }) => (
               <article key={href} className="group flex flex-col overflow-hidden rounded-3xl bg-surface ring-1 ring-line transition hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_40px_rgba(15,46,99,0.12)] hover:ring-royal/30">
                 <div className="p-7">
@@ -97,7 +98,7 @@ export default function RegisterPage() {
                 </div>
               </article>
             ))}
-          </div>
+          </Reveal>
           <p className="mt-8 flex items-start gap-3 rounded-2xl bg-surface p-5 text-sm text-slate-600 ring-1 ring-line">
             <Lock className="mt-0.5 size-4 shrink-0 text-royal" aria-hidden="true" />
             Forms are stored securely and reviewed by SSCFI. The public player directory shows only name, Player ID,

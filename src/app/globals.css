@@ -199,33 +199,133 @@
 }
 
 @layer utilities {
-  /* Scroll reveal: hidden only when JS is running, so content never disappears without it. */
-  html.js .reveal {
+  /*
+   * Scroll reveal: hidden only when JS is running, so content never disappears without it.
+   * .reveal animates the element itself; .reveal-stagger leaves the element alone and animates
+   * its direct children one after another (--stagger apart, --i from nth-child).
+   * Entrances are keyframes with a `from` state only, so they land on each element's own styles
+   * (hover lifts and translate utilities keep working) and leave no transform behind.
+   */
+  html.js .reveal:not([data-inview]),
+  html.js .reveal-stagger:not([data-inview]) > * {
     opacity: 0;
-    translate: 0 22px;
-    transition:
-      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
-      translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-    transition-delay: var(--reveal-delay, 0ms);
+    /* Safety net: if hydration is slow or fails, everything still appears after two seconds. */
+    animation: reveal-safety 0.6s ease 2s forwards;
   }
   html.js .reveal[data-inview] {
-    opacity: 1;
-    translate: 0 0;
+    animation: reveal-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms) backwards;
   }
-  /* Safety net: if hydration is slow or fails, everything still appears after two seconds. */
-  html.js .reveal:not([data-inview]) {
-    animation: reveal-safety 0.6s ease 2s forwards;
+  html.js .reveal[data-inview][data-reveal="left"] {
+    animation-name: reveal-in-left;
+  }
+  html.js .reveal[data-inview][data-reveal="right"] {
+    animation-name: reveal-in-right;
+  }
+  html.js .reveal[data-inview][data-reveal="scale"] {
+    animation-name: reveal-in-scale;
+  }
+  html.js .reveal-stagger[data-inview] > * {
+    animation: reveal-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation-delay: calc(var(--reveal-delay, 0ms) + var(--stagger, 70ms) * var(--i, 0));
+  }
+  .reveal-stagger > :nth-child(1) { --i: 0; }
+  .reveal-stagger > :nth-child(2) { --i: 1; }
+  .reveal-stagger > :nth-child(3) { --i: 2; }
+  .reveal-stagger > :nth-child(4) { --i: 3; }
+  .reveal-stagger > :nth-child(5) { --i: 4; }
+  .reveal-stagger > :nth-child(6) { --i: 5; }
+  .reveal-stagger > :nth-child(7) { --i: 6; }
+  .reveal-stagger > :nth-child(8) { --i: 7; }
+  .reveal-stagger > :nth-child(9) { --i: 8; }
+  .reveal-stagger > :nth-child(10) { --i: 9; }
+  .reveal-stagger > :nth-child(11) { --i: 10; }
+  .reveal-stagger > :nth-child(12) { --i: 11; }
+  .reveal-stagger > :nth-child(n + 13) { --i: 12; }
+  /* While the load splash is up, hold every entrance so it plays as the splash fades. */
+  html.splashing .reveal[data-inview],
+  html.splashing .reveal-stagger[data-inview] > *,
+  html.splashing .page-enter {
+    animation-play-state: paused;
+  }
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      translate: 0 28px;
+      scale: 0.98;
+    }
+  }
+  @keyframes reveal-in-left {
+    from {
+      opacity: 0;
+      translate: -44px 0;
+    }
+  }
+  @keyframes reveal-in-right {
+    from {
+      opacity: 0;
+      translate: 44px 0;
+    }
+  }
+  @keyframes reveal-in-scale {
+    from {
+      opacity: 0;
+      scale: 0.88;
+    }
   }
   @keyframes reveal-safety {
     to {
       opacity: 1;
-      translate: 0 0;
     }
   }
+  /* Eyebrow rule grows out from the left once its heading is revealed. */
+  html.js .reveal .eyebrow-dash {
+    transform-origin: left center;
+    scale: 0 1;
+    transition: scale 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--reveal-delay, 0ms) + 260ms);
+  }
+  html.js .reveal[data-inview] .eyebrow-dash {
+    scale: 1 1;
+  }
+  /* Route change: the new page fades and rises in (PageTransition remounts it per pathname). */
+  html.js .page-enter {
+    animation: page-enter 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  }
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      translate: 0 14px;
+    }
+  }
+  /* Scroll-driven drift for decorative layers; ignored by browsers without scroll timelines. */
+  @supports (animation-timeline: view()) {
+    .parallax-slow {
+      animation: parallax-slow linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+  @keyframes parallax-slow {
+    from {
+      translate: 0 48px;
+    }
+    to {
+      translate: 0 -48px;
+    }
+  }
+  /* Selectors repeat the attribute states above so this override out-ranks them in specificity. */
   @media (prefers-reduced-motion: reduce), print {
-    html.js .reveal {
+    html.js .reveal:not([data-inview]),
+    html.js .reveal[data-inview],
+    html.js .reveal[data-inview][data-reveal],
+    html.js .reveal-stagger:not([data-inview]) > *,
+    html.js .reveal-stagger[data-inview] > *,
+    html.js .page-enter,
+    .parallax-slow {
       opacity: 1;
-      translate: none;
+      animation: none;
+    }
+    html.js .reveal .eyebrow-dash {
+      scale: none;
       transition: none;
     }
   }
@@ -251,6 +351,33 @@
 /* Unlayered on purpose: it must beat Tailwind's layered utilities. Without JavaScript the splash never shows. */
 html:not(.js) .splash {
   display: none;
+}
+
+/* ---------- Buttons: light sweep on hover, gentle press ---------- */
+@layer components {
+  :where(a, button).rounded-full.bg-gold {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  :where(a, button).rounded-full.bg-gold::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.6) 50%, transparent 65%);
+    translate: -130% 0;
+    pointer-events: none;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    :where(a, button).rounded-full.bg-gold:hover::before {
+      translate: 130% 0;
+      transition: translate 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+  }
+  :where(a, button).rounded-full:active {
+    scale: 0.97;
+  }
 }
 
 /* ---------- Premium surfaces ---------- */

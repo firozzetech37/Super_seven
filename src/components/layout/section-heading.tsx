@@ -39,7 +39,7 @@ export function SectionHeading({
               align === "center" && "justify-center",
             )}
           >
-            <span aria-hidden="true" className={cn("h-px w-8", dark ? "bg-gold" : "bg-gold-deep")} />
+            <span aria-hidden="true" className={cn("eyebrow-dash h-px w-8", dark ? "bg-gold" : "bg-gold-deep")} />
             {eyebrow}
           </p>
         ) : null}

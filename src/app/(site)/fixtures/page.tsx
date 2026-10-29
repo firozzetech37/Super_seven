@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { StandingsTable } from "@/components/fixtures/standings-table";
 import { leagueSummary2014, results2014, tournament2014 } from "@/lib/data/fixtures";
 import { getLeagueStandings, getUpcomingFixtures } from "@/lib/queries/fixtures";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Fixtures & Results",
@@ -58,11 +59,11 @@ export default async function FixturesPage() {
               </Link>
             }
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <Reveal stagger className="mt-10 grid gap-5 md:grid-cols-3">
             {upcomingFixtures.map((f) => (
               <MatchCard key={f.id} fixture={f} />
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -118,11 +119,11 @@ export default async function FixturesPage() {
             description="Computed by the database from stored results: two points for a win, one for a tie, a walkover counts as a win."
           />
           {standings.length ? (
-            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <Reveal stagger className="mt-10 grid gap-5 lg:grid-cols-2">
               {standings.map((g) => (
                 <StandingsTable key={`${g.tournament}-${g.group}`} group={g} />
               ))}
-            </div>
+            </Reveal>
           ) : (
             <div className="mt-10 rounded-3xl bg-surface p-8 ring-1 ring-line">
               <span className="grid size-12 place-items-center rounded-2xl bg-royal/10 text-royal">

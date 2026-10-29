@@ -8,6 +8,7 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { PersonCard } from "@/components/people/person-card";
 import { leadership } from "@/lib/data/people";
 import { site } from "@/lib/site";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "About",
@@ -137,11 +138,11 @@ export default function AboutPage() {
             </Link>
           }
         />
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <Reveal stagger className="mt-10 grid gap-6 md:grid-cols-3">
           {leadership.map((p) => (
             <PersonCard key={p.id} person={p} />
           ))}
-        </div>
+        </Reveal>
       </section>
 
       <section className="border-t border-line bg-surface py-16">

@@ -7,6 +7,7 @@ import { RowsSkeleton } from "@/components/layout/page-skeleton";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { stateCodes } from "@/lib/forms";
 import { searchPlayers } from "@/lib/queries/players";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Player Directory",
@@ -77,7 +78,7 @@ export default function PlayersPage(props: PageProps<"/players">) {
         <div className="mt-14">
           <SectionHeading eyebrow="How it works" title="Public, searchable and careful with children's data" />
         </div>
-        <ul className="mt-8 grid gap-5 md:grid-cols-3">
+        <Reveal stagger as="ul" className="mt-8 grid gap-5 md:grid-cols-3">
           {promises.map(({ icon: Icon, title, text }) => (
             <li key={title} className="rounded-2xl bg-surface p-6 ring-1 ring-line">
               <span className="grid size-11 place-items-center rounded-xl bg-royal/10 text-royal">
@@ -87,7 +88,7 @@ export default function PlayersPage(props: PageProps<"/players">) {
               <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{text}</p>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </section>
     </>
   );

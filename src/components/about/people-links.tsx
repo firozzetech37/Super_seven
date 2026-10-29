@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, FileText, Scale, UserCheck, Users, UsersRound } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 
 const links = [
   { title: "Advisory Committee", text: "Senior advisers to the federation.", href: "/about/advisory-committee", icon: Users },
@@ -12,7 +13,7 @@ const links = [
 
 export function PeopleLinks() {
   return (
-    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <Reveal stagger as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {links.map(({ title, text, href, icon: Icon }) => (
         <li key={href}>
           <Link
@@ -32,6 +33,6 @@ export function PeopleLinks() {
           </Link>
         </li>
       ))}
-    </ul>
+    </Reveal>
   );
 }

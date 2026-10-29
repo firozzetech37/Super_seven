@@ -4,6 +4,7 @@ import { NoticeCard } from "@/components/about/notice-card";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { documentCategories, documents, legacyDocumentBase, type DocCategory } from "@/lib/data/documents";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "Documents",
@@ -51,7 +52,7 @@ export default function DocumentsPage() {
             }
           />
         </div>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal stagger as="ul" className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sorted.map((d) => (
             <li key={d.id}>
               <a
@@ -82,7 +83,7 @@ export default function DocumentsPage() {
               </a>
             </li>
           ))}
-        </ul>
+        </Reveal>
       </section>
     </>
   );

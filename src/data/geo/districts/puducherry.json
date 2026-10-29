@@ -1,0 +1,6 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"MultiPolygon","coordinates":[[[[79.7975,11.8245],[79.7295,11.837],[79.713,11.791],[79.755,11.7755],[79.796,11.7855],[79.7975,11.8245]]],[[[79.6855,11.8835],[79.71,11.8885],[79.768,11.84],[79.808,11.8455],[79.8405,11.956],[79.8125,11.978],[79.76,11.9435],[79.742,11.9775],[79.697,11.9465],[79.7405,11.9055],[79.6855,11.8835]]],[[[79.62,12.0015],[79.632,11.902],[79.6705,11.9315],[79.62,12.0015]]]]},"properties":{"name":"Puducherry","slug":"puducherry","state":"puducherry"},"id":"puducherry"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[79.7245,10.933],[79.811,10.8805],[79.8505,10.828],[79.8515,10.987],[79.815,11.0035],[79.7465,11.0005],[79.719,10.9685],[79.7245,10.933]]]},"properties":{"name":"Karaikal","slug":"karaikal","state":"puducherry"},"id":"karaikal"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[75.5555,11.722],[75.5415,11.739],[75.5365,11.7195],[75.5555,11.722]]]},"properties":{"name":"Mahe","slug":"mahe","state":"puducherry"},"id":"mahe"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[82.1865,16.737],[82.199,16.721],[82.239,16.7165],[82.267,16.6945],[82.2695,16.722],[82.1865,16.737]]]},"properties":{"name":"Yanam","slug":"yanam","state":"puducherry"},"id":"yanam"}
+]}

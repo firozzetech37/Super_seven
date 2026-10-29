@@ -1,26 +1,314 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Typography: Carlito/Caladea are the open equivalents of Calibri/Cambria used in the concept PDF */
+  --font-sans: var(--font-carlito), Calibri, "Segoe UI", system-ui, sans-serif;
+  --font-heading: var(--font-caladea), Cambria, Georgia, serif;
+  --font-bengali: var(--font-bengali), "Noto Sans Bengali", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Brand palette, sampled from SSCFI_Website_Concept_v2.pdf */
+  --color-navy: #0f2e63;
+  --color-navy-deep: #0b2550;
+  --color-navy-hero: #163a78;
+  --color-navy-faded: #244780;
+  --color-royal: #1c4fa0;
+  --color-gold: #d9ae56;
+  --color-gold-deep: #c99b43;
+  --color-ground: #38943f;
+  --color-ground-deep: #2f7d3a;
+  --color-pitch: #dcc98e;
+  --color-ball: #b22234;
+  --color-skin: #f2c9a0;
+  --color-handle: #7a4b22;
+  --color-surface: #f6f7fb;
+  --color-line: #e2e5ef;
+  --color-avatar: #dce3f5;
+  --color-ink: #1b2238;
+  --color-status-onboarded: #7bc67e;
+  --color-status-talks: #f2d45c;
+  --color-status-unreached: #f4a9a9;
+  --color-facebook: #1877f2;
+  --color-instagram: #c13584;
+  --color-linkedin: #0a66c2;
+  --color-youtube: #e62017;
+
+  /* shadcn/ui tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1b2238;
+  --card: #ffffff;
+  --card-foreground: #1b2238;
+  --popover: #ffffff;
+  --popover-foreground: #1b2238;
+  --primary: #1c4fa0;
+  --primary-foreground: #ffffff;
+  --secondary: #f6f7fb;
+  --secondary-foreground: #0f2e63;
+  --muted: #f6f7fb;
+  --muted-foreground: #5b6478;
+  --accent: #eef2fa;
+  --accent-foreground: #0f2e63;
+  --destructive: #b22234;
+  --border: #e2e5ef;
+  --input: #e2e5ef;
+  --ring: #1c4fa0;
+  --chart-1: #1c4fa0;
+  --chart-2: #d9ae56;
+  --chart-3: #38943f;
+  --chart-4: #b22234;
+  --chart-5: #0f2e63;
+  --radius: 0.75rem;
+  --sidebar: #f6f7fb;
+  --sidebar-foreground: #1b2238;
+  --sidebar-primary: #1c4fa0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef2fa;
+  --sidebar-accent-foreground: #0f2e63;
+  --sidebar-border: #e2e5ef;
+  --sidebar-ring: #1c4fa0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
+
+/* ---------- Motion tokens (Stage: premium polish) ---------- */
+@theme inline {
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out 1.2s infinite;
+  --animate-sweep: sweep 9s ease-in-out infinite;
+  --animate-glow: glow 4s ease-in-out infinite;
+  --animate-orbit: spin 1.8s linear infinite reverse;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -8px;
+    }
+  }
+  @keyframes sweep {
+    0% {
+      translate: -130% 0;
+    }
+    45%,
+    100% {
+      translate: 130% 0;
+    }
+  }
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(217, 174, 86, 0), 0 12px 32px rgba(4, 15, 42, 0.45);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(217, 174, 86, 0.16), 0 12px 32px rgba(4, 15, 42, 0.45);
+    }
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    letter-spacing: -0.012em;
+  }
+  ::selection {
+    background: #d9ae56;
+    color: #0f2e63;
+  }
+  @media (pointer: fine) {
+    html {
+      scrollbar-color: #1c4fa0 #eef2fa;
+      scrollbar-width: thin;
+    }
+  }
+}
+
+@layer utilities {
+  /* Scroll reveal: hidden only when JS is running, so content never disappears without it. */
+  html.js .reveal {
+    opacity: 0;
+    translate: 0 22px;
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+      translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  html.js .reveal[data-inview] {
+    opacity: 1;
+    translate: 0 0;
+  }
+  /* Safety net: if hydration is slow or fails, everything still appears after two seconds. */
+  html.js .reveal:not([data-inview]) {
+    animation: reveal-safety 0.6s ease 2s forwards;
+  }
+  @keyframes reveal-safety {
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce), print {
+    html.js .reveal {
+      opacity: 1;
+      translate: none;
+      transition: none;
+    }
+  }
+  .shimmer-dark {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.16) 50%, rgba(255, 255, 255, 0.06) 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+  .shimmer-light {
+    background: linear-gradient(90deg, #eef1f8 25%, #f8f9fd 50%, #eef1f8 75%);
+    background-size: 200% 100%;
+    animation: var(--animate-shimmer);
+  }
+  /* Subtle floodlight texture for navy sections */
+  .bg-stadium {
+    background-image:
+      radial-gradient(60% 90% at 85% 10%, rgba(44, 103, 196, 0.5), transparent 70%),
+      radial-gradient(40% 60% at 10% 90%, rgba(28, 79, 160, 0.35), transparent 70%),
+      linear-gradient(160deg, #163a78, #0f2e63 70%, #0b2550);
+  }
+}
+
+/* Unlayered on purpose: it must beat Tailwind's layered utilities. Without JavaScript the splash never shows. */
+html:not(.js) .splash {
+  display: none;
+}
+
+/* ---------- Premium surfaces ---------- */
+@utility card-premium {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(217, 174, 86, 0.95), rgba(28, 79, 160, 0.9));
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  &:hover::after,
+  &:focus-visible::after,
+  &:focus-within::after {
+    opacity: 1;
+  }
+}
+
+/* Low-resolution archive photos: navy duotone that turns to colour on hover (pointer devices only). */
+@utility duotone {
+  @media (hover: hover) {
+    & img {
+      mix-blend-mode: luminosity;
+      filter: saturate(0) contrast(1.05);
+      opacity: 0.92;
+      transition:
+        filter 0.5s ease,
+        opacity 0.5s ease;
+    }
+    &:hover img,
+    &:focus-visible img {
+      mix-blend-mode: normal;
+      filter: none;
+      opacity: 1;
+    }
+  }
+}
+
+@theme inline {
+  --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
+  @keyframes marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
+}
+
+

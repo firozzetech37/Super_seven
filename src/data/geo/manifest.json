@@ -1,0 +1,259 @@
+{
+  "source": "https://github.com/udit-001/india-maps-data/tree/2884453",
+  "builtAt": "2026-10-29T05:42:21.792Z",
+  "statesSha256": "26c145d027f120c9",
+  "states": [
+    {
+      "state": "Andaman and Nicobar Islands",
+      "slug": "andaman-and-nicobar-islands",
+      "districts": 3,
+      "kb": 4,
+      "code": "AN"
+    },
+    {
+      "state": "Andhra Pradesh",
+      "slug": "andhra-pradesh",
+      "districts": 26,
+      "kb": 108,
+      "code": "AP"
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "slug": "arunachal-pradesh",
+      "districts": 25,
+      "kb": 9,
+      "code": "AR"
+    },
+    {
+      "state": "Assam",
+      "slug": "assam",
+      "districts": 33,
+      "kb": 15,
+      "code": "AS"
+    },
+    {
+      "state": "Bihar",
+      "slug": "bihar",
+      "districts": 38,
+      "kb": 17,
+      "code": "BR"
+    },
+    {
+      "state": "Chandigarh",
+      "slug": "chandigarh",
+      "districts": 1,
+      "kb": 0,
+      "code": "CH"
+    },
+    {
+      "state": "Chhattisgarh",
+      "slug": "chhattisgarh",
+      "districts": 27,
+      "kb": 14,
+      "code": "CG"
+    },
+    {
+      "state": "Dadra and Nagar Haveli and Daman and Diu",
+      "slug": "dadra-and-nagar-haveli-and-daman-and-diu",
+      "districts": 3,
+      "kb": 1,
+      "code": "DD"
+    },
+    {
+      "state": "Delhi",
+      "slug": "delhi",
+      "districts": 1,
+      "kb": 0,
+      "code": "DL"
+    },
+    {
+      "state": "Goa",
+      "slug": "goa",
+      "districts": 2,
+      "kb": 1,
+      "code": "GA"
+    },
+    {
+      "state": "Gujarat",
+      "slug": "gujarat",
+      "districts": 34,
+      "kb": 20,
+      "code": "GJ"
+    },
+    {
+      "state": "Haryana",
+      "slug": "haryana",
+      "districts": 22,
+      "kb": 9,
+      "code": "HR"
+    },
+    {
+      "state": "Himachal Pradesh",
+      "slug": "himachal-pradesh",
+      "districts": 12,
+      "kb": 6,
+      "code": "HP"
+    },
+    {
+      "state": "Jammu and Kashmir",
+      "slug": "jammu-and-kashmir",
+      "districts": 22,
+      "kb": 15,
+      "code": "JK"
+    },
+    {
+      "state": "Jharkhand",
+      "slug": "jharkhand",
+      "districts": 24,
+      "kb": 11,
+      "code": "JH"
+    },
+    {
+      "state": "Karnataka",
+      "slug": "karnataka",
+      "districts": 30,
+      "kb": 17,
+      "code": "KA"
+    },
+    {
+      "state": "Kerala",
+      "slug": "kerala",
+      "districts": 14,
+      "kb": 5,
+      "code": "KL"
+    },
+    {
+      "state": "Ladakh",
+      "slug": "ladakh",
+      "districts": 2,
+      "kb": 2,
+      "code": "LA"
+    },
+    {
+      "state": "Lakshadweep",
+      "slug": "lakshadweep",
+      "districts": 1,
+      "kb": 0,
+      "code": "LD"
+    },
+    {
+      "state": "Madhya Pradesh",
+      "slug": "madhya-pradesh",
+      "districts": 52,
+      "kb": 30,
+      "code": "MP"
+    },
+    {
+      "state": "Maharashtra",
+      "slug": "maharashtra",
+      "districts": 35,
+      "kb": 22,
+      "code": "MH"
+    },
+    {
+      "state": "Manipur",
+      "slug": "manipur",
+      "districts": 16,
+      "kb": 6,
+      "code": "MN"
+    },
+    {
+      "state": "Meghalaya",
+      "slug": "meghalaya",
+      "districts": 11,
+      "kb": 4,
+      "code": "ML"
+    },
+    {
+      "state": "Mizoram",
+      "slug": "mizoram",
+      "districts": 10,
+      "kb": 10,
+      "code": "MZ"
+    },
+    {
+      "state": "Nagaland",
+      "slug": "nagaland",
+      "districts": 11,
+      "kb": 4,
+      "code": "NL"
+    },
+    {
+      "state": "Odisha",
+      "slug": "odisha",
+      "districts": 30,
+      "kb": 15,
+      "code": "OD"
+    },
+    {
+      "state": "Puducherry",
+      "slug": "puducherry",
+      "districts": 4,
+      "kb": 1,
+      "code": "PY"
+    },
+    {
+      "state": "Punjab",
+      "slug": "punjab",
+      "districts": 22,
+      "kb": 10,
+      "code": "PB"
+    },
+    {
+      "state": "Rajasthan",
+      "slug": "rajasthan",
+      "districts": 33,
+      "kb": 20,
+      "code": "RJ"
+    },
+    {
+      "state": "Sikkim",
+      "slug": "sikkim",
+      "districts": 4,
+      "kb": 1,
+      "code": "SK"
+    },
+    {
+      "state": "Tamil Nadu",
+      "slug": "tamil-nadu",
+      "districts": 37,
+      "kb": 13,
+      "code": "TN"
+    },
+    {
+      "state": "Telangana",
+      "slug": "telangana",
+      "districts": 33,
+      "kb": 14,
+      "code": "TS"
+    },
+    {
+      "state": "Tripura",
+      "slug": "tripura",
+      "districts": 8,
+      "kb": 3,
+      "code": "TR"
+    },
+    {
+      "state": "Uttar Pradesh",
+      "slug": "uttar-pradesh",
+      "districts": 75,
+      "kb": 38,
+      "code": "UP"
+    },
+    {
+      "state": "Uttarakhand",
+      "slug": "uttarakhand",
+      "districts": 13,
+      "kb": 6,
+      "code": "UK"
+    },
+    {
+      "state": "West Bengal",
+      "slug": "west-bengal",
+      "districts": 23,
+      "kb": 13,
+      "code": "WB"
+    }
+  ]
+}

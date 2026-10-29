@@ -1,0 +1,6 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[88.483,27.376],[88.794,27.416],[88.764,27.565],[88.848,27.6675],[88.844,27.9925],[88.756,28.076],[88.6195,28.098],[88.409,27.982],[88.2045,27.9415],[88.198,27.7895],[88.1145,27.6185],[88.2815,27.513],[88.356,27.521],[88.483,27.376]]]},"properties":{"name":"North Sikkim","slug":"north-sikkim","state":"sikkim"},"id":"north-sikkim"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[88.1145,27.6185],[88.045,27.478],[88.0325,27.2855],[88.096,27.1335],[88.2805,27.1315],[88.302,27.229],[88.2815,27.513],[88.1145,27.6185]]]},"properties":{"name":"West Sikkim","slug":"west-sikkim","state":"sikkim"},"id":"west-sikkim"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[88.2815,27.513],[88.302,27.229],[88.2805,27.1315],[88.432,27.08],[88.532,27.176],[88.4385,27.2645],[88.483,27.376],[88.356,27.521],[88.2815,27.513]]]},"properties":{"name":"South Sikkim","slug":"south-sikkim","state":"sikkim"},"id":"south-sikkim"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[88.483,27.376],[88.4385,27.2645],[88.532,27.176],[88.722,27.1395],[88.803,27.248],[88.919,27.3205],[88.794,27.416],[88.483,27.376]]]},"properties":{"name":"East Sikkim","slug":"east-sikkim","state":"sikkim"},"id":"east-sikkim"}
+]}

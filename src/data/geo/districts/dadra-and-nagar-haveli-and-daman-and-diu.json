@@ -1,0 +1,5 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[72.9625,20.2085],[72.9645,20.127],[73.137,20.086],[73.166,20.0545],[73.2105,20.0855],[73.19,20.164],[73.137,20.2045],[73.116,20.152],[73.049,20.2],[73.167,20.2885],[73.0425,20.325],[73.0345,20.2915],[72.932,20.2945],[72.9135,20.2715],[72.9625,20.2085]]]},"properties":{"name":"Dadra and Nagar Haveli","slug":"dadra-and-nagar-haveli","state":"dadra-and-nagar-haveli-and-daman-and-diu"},"id":"dadra-and-nagar-haveli"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[72.8865,20.462],[72.8365,20.4535],[72.821,20.3675],[72.896,20.379],[72.8575,20.419],[72.8865,20.462]]]},"properties":{"name":"Daman","slug":"daman","state":"dadra-and-nagar-haveli-and-daman-and-diu"},"id":"daman"},
+{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[70.92,20.7425],[70.885,20.7255],[70.8995,20.6995],[70.9605,20.7365],[70.92,20.7425]]]},"properties":{"name":"Diu","slug":"diu","state":"dadra-and-nagar-haveli-and-daman-and-diu"},"id":"diu"}
+]}

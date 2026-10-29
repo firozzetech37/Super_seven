@@ -8,6 +8,8 @@ export type LegacyDocument = {
   pages: number;
   category: DocCategory;
   description: string;
+  /** Full URL for documents hosted on this site; legacy ones resolve from legacyDocumentBase + file. */
+  href?: string;
 };
 
 /** The 2014 PDFs still hosted on the old site; they move to this site's storage in Phase 2. */
@@ -22,6 +24,16 @@ export const documentCategories: Record<DocCategory, string> = {
 };
 
 export const documents: LegacyDocument[] = [
+  {
+    id: "rulebook-multilingual",
+    title: "Super Seven Cricket Multilingual Rulebook",
+    file: "sscfi-multilingual-rulebook.pdf",
+    href: "/documents/sscfi-multilingual-rulebook.pdf",
+    year: 2026,
+    pages: 173,
+    category: "rules",
+    description: "All forty rules and the glossary in sixteen Indian languages, translated from the English Pocket Rulebook. Under Technical Committee review.",
+  },
   {
     id: "rules-highlights",
     title: "Highlights: Rules of Super Seven Cricket",

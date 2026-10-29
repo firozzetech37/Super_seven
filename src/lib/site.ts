@@ -58,7 +58,7 @@ export const doors: Door[] = [
     number: 3,
     label: "Rules",
     href: "/rules",
-    items: ["Rule book in English and Bengali", "Glossary"],
+    items: ["Rule book in 16 Indian languages", "Glossary"],
     x: 314,
     y: 37,
   },
@@ -185,7 +185,7 @@ export const navigation: NavItem[] = [
     href: "/rules",
     children: [
       { label: "Rule book (English)", href: "/rules#english", description: "How Super Seven cricket is played" },
-      { label: "Rule book (Bengali)", href: "/rules#bengali", description: "নিয়মাবলী" },
+      { label: "Rulebook in 16 languages", href: "/rules/rulebook", description: "हिन्दी, বাংলা, தமிழ் and thirteen more" },
       { label: "Glossary", href: "/rules#glossary", description: "Terms used on this site" },
     ],
   },

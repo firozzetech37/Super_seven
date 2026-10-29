@@ -13,7 +13,7 @@ export function SectionHeading({
   as: Tag = "h2",
 }: {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   tone?: "light" | "dark";
   align?: "left" | "center";

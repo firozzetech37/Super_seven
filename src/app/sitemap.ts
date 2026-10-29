@@ -6,6 +6,7 @@ const routes: { path: string; priority: number; changeFrequency: MetadataRoute.S
   { path: "/teams", priority: 0.8, changeFrequency: "monthly" },
   { path: "/fixtures", priority: 0.9, changeFrequency: "weekly" },
   { path: "/rules", priority: 0.7, changeFrequency: "yearly" },
+  { path: "/rules/rulebook", priority: 0.7, changeFrequency: "yearly" },
   { path: "/register", priority: 0.9, changeFrequency: "monthly" },
   { path: "/register/player", priority: 0.8, changeFrequency: "monthly" },
   { path: "/register/team", priority: 0.8, changeFrequency: "monthly" },

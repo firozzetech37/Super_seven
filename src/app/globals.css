@@ -312,3 +312,14 @@ html:not(.js) .splash {
 }
 
 
+
+/* Script font stacks for the multilingual rulebook. System fonts cover every Indian script; Noto names come first where installed. */
+@utility font-devanagari { font-family: "Noto Sans Devanagari", "Kohinoor Devanagari", "Devanagari Sangam MN", Mangal, "Nirmala UI", system-ui, sans-serif; }
+@utility font-gujarati { font-family: "Noto Sans Gujarati", "Kohinoor Gujarati", "Gujarati Sangam MN", Shruti, "Nirmala UI", system-ui, sans-serif; }
+@utility font-kannada { font-family: "Noto Sans Kannada", "Kannada Sangam MN", Tunga, "Nirmala UI", system-ui, sans-serif; }
+@utility font-tamil { font-family: "Noto Sans Tamil", "Tamil Sangam MN", Latha, "Nirmala UI", system-ui, sans-serif; }
+@utility font-telugu { font-family: "Noto Sans Telugu", "Kohinoor Telugu", "Telugu Sangam MN", Gautami, "Nirmala UI", system-ui, sans-serif; }
+@utility font-malayalam { font-family: "Noto Sans Malayalam", "Malayalam Sangam MN", Kartika, "Nirmala UI", system-ui, sans-serif; }
+@utility font-odia { font-family: "Noto Sans Oriya", "Oriya Sangam MN", Kalinga, "Nirmala UI", system-ui, sans-serif; }
+@utility font-urdu { font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", "Geeza Pro", "Segoe UI", system-ui, sans-serif; }
+@utility font-gurmukhi { font-family: "Noto Sans Gurmukhi", "Gurmukhi Sangam MN", Raavi, "Nirmala UI", system-ui, sans-serif; }

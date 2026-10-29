@@ -24,15 +24,15 @@ export default function DocumentsPage() {
         aside={
           <div className="rounded-2xl bg-white/10 px-5 py-4 ring-1 ring-white/15 backdrop-blur">
             <p className="font-heading text-3xl font-bold">{documents.length}</p>
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gold">Documents, 2014 archive</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-gold">Documents</p>
           </div>
         }
       />
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
-        <NoticeCard title="Hosted on the 2014 site until migrated">
-          Each PDF opens from the old sscfi.org in a new tab. In Phase 2 they move into this site&apos;s document
-          library, with the rule book also published as a page in English and Bengali.
+        <NoticeCard title="2014 documents open from the old site">
+          The multilingual rulebook is hosted here and also published as a page in sixteen languages. The 2014 PDFs still open from
+          the old sscfi.org in a new tab until they are migrated.
         </NoticeCard>
 
         <div className="mt-14">
@@ -55,7 +55,7 @@ export default function DocumentsPage() {
           {sorted.map((d) => (
             <li key={d.id}>
               <a
-                href={`${legacyDocumentBase}${d.file}`}
+                href={d.href ?? `${legacyDocumentBase}${d.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex h-full flex-col rounded-2xl bg-white p-6 ring-1 ring-line transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(15,46,99,0.12)] hover:ring-royal/40"

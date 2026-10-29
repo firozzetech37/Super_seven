@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Languages } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Languages } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { RuleSection } from "@/lib/data/rules";
 
 type Lang = "en" | "bn";
 
-/** Numbered rule book with an English/Bengali switch. The Bengali text is pending from SSCFI, so that tab says so. */
+/** Numbered rule book with an English/Bengali switch. The Bengali tab points to the full translation in the multilingual rulebook. */
 export function RuleBook({ sections }: { sections: RuleSection[] }) {
   const [lang, setLang] = useState<Lang>("en");
 
@@ -63,11 +64,23 @@ export function RuleBook({ sections }: { sections: RuleSection[] }) {
             <Languages className="size-6" aria-hidden="true" />
           </span>
           <div>
-            <p className="font-bengali text-xl font-bold text-navy">বাংলা অনুবাদ শীঘ্রই আসছে</p>
+            <p className="font-bengali text-xl font-bold text-navy">বাংলায় সম্পূর্ণ নিয়মাবলী</p>
             <p className="mt-2 text-[16px] leading-relaxed text-slate-600">
-              The Bengali rule book is pending from SSCFI. It will be published here, section for section, once the
-              official translation is approved. Until then the English rule book above is the reference.
+              The complete forty-rule book in Bengali is published in the multilingual rulebook, pages 30 to 44, alongside fifteen other
+              languages. The translation is under Technical Committee review; the English text is the reference until it is approved.
             </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/rules/rulebook?lang=bengali#reader"
+                className="group inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 font-bold text-white transition hover:bg-royal"
+              >
+                <span className="font-bengali">বাংলা</span> rulebook
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+              <Link href="/rules/rulebook" className="inline-flex items-center gap-2 rounded-full bg-surface px-5 py-2.5 font-bold text-navy ring-1 ring-line transition hover:ring-royal">
+                All 16 languages
+              </Link>
+            </div>
           </div>
         </div>
       </div>

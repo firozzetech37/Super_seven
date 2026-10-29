@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { ExternalLink, FileText } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Download, ExternalLink, FileText } from "lucide-react";
 import { JumpLinks } from "@/components/fixtures/jump-links";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
+import { Reveal } from "@/components/motion/reveal";
 import { RuleBook } from "@/components/rules/rule-book";
+import { rulebookLanguages, rulebookPdf, scriptClass } from "@/lib/data/rulebook";
 import { glossary, quickFacts, ruleSections, rulesPdf } from "@/lib/data/rules";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Rules",
@@ -13,7 +18,7 @@ export const metadata: Metadata = {
 
 const jump = [
   { label: "Rule book", href: "#english" },
-  { label: "বাংলা", href: "#bengali" },
+  { label: "16 languages", href: "#languages" },
   { label: "Glossary", href: "#glossary" },
 ];
 
@@ -46,7 +51,7 @@ export default function RulesPage() {
           <SectionHeading
             eyebrow="Rule book"
             title="How the game is played"
-            description="Transcribed from the SSCFI highlights sheet. The full rule book in English and Bengali follows the same seven sections."
+            description="Transcribed from the SSCFI highlights sheet. The full forty-rule book, in sixteen languages, is below."
             action={
               <a
                 href={rulesPdf}
@@ -66,24 +71,69 @@ export default function RulesPage() {
         </div>
       </section>
 
-      <section id="bengali" className="scroll-mt-28 border-t border-line bg-surface py-14">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid gap-6 rounded-3xl bg-white p-8 ring-1 ring-line md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-royal">Bengali rule book</p>
-              <h2 className="font-bengali mt-2 text-2xl font-bold text-navy">নিয়মাবলী: বাংলা সংস্করণ</h2>
-              <p className="mt-2 max-w-2xl text-slate-600">
-                The official Bengali translation is pending from SSCFI and will be published here, section for section,
-                once approved. Switch the rule book above to বাংলা to see the same notice in place.
-              </p>
+      <section id="languages" className="relative isolate scroll-mt-28 overflow-hidden border-t border-line bg-navy-hero py-14 text-white lg:py-16">
+        <span id="bengali" className="absolute -top-28" aria-hidden="true" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-[radial-gradient(55%_70%_at_25%_40%,rgba(44,103,196,0.5),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_120%,rgba(5,16,45,0.8),transparent_60%)]" />
+        </div>
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_360px]">
+          <Reveal>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">Multilingual rulebook</p>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">The full rulebook in 16 Indian languages</h2>
+            <p className="mt-3 max-w-2xl text-white/80">
+              Forty rules, from Teams to Protest, translated from the English Pocket Rulebook into Sanskrit, Hindi, Bengali, Marathi, Gujarati,
+              Kannada, Tamil, Telugu, Malayalam, Odia, Urdu, Punjabi, Nepali, Mizo, Khasi and Manipuri. Read any rule online, in any language,
+              or download the book.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {rulebookLanguages.map((l) => (
+                <li key={l.slug}>
+                  <Link
+                    href={`/rules/rulebook?lang=${l.slug}#reader`}
+                    lang={l.code}
+                    dir={l.dir}
+                    className={cn("inline-block rounded-full bg-white/10 px-3 py-1.5 text-sm font-bold ring-1 ring-white/15 transition hover:bg-gold hover:text-navy", scriptClass[l.script])}
+                  >
+                    {l.native}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/rules/rulebook" className="group inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 font-bold text-navy transition hover:bg-gold-deep">
+                Open the rulebook
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </Link>
+              <a href={rulebookPdf} download className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-bold text-white ring-2 ring-white/50 transition hover:bg-white/10">
+                <Download className="size-4" aria-hidden="true" />
+                Download PDF
+              </a>
             </div>
-            <a
-              href="mailto:coo@sscfi.org?subject=Bengali%20rule%20book"
-              className="inline-flex items-center justify-center rounded-full bg-navy px-6 py-3 font-bold text-white transition hover:bg-royal"
-            >
-              Ask about the translation
-            </a>
-          </div>
+          </Reveal>
+          <Reveal delay={150} className="hidden lg:block">
+            <div aria-hidden="true" className="relative mx-auto h-[320px] w-[340px]">
+              {["bengali", "hindi", "tamil"].map((slug, i) => {
+                const l = rulebookLanguages.find((x) => x.slug === slug)!;
+                return (
+                  <Image
+                    key={slug}
+                    src={l.thumb}
+                    alt=""
+                    width={720}
+                    height={932}
+                    sizes="200px"
+                    className={cn(
+                      "absolute left-1/2 top-1/2 w-[190px] -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-[0_24px_60px_rgba(4,15,42,0.5)] ring-1 ring-white/20",
+                      i === 0 && "-translate-x-[82%] -rotate-[12deg] motion-safe:animate-float-slow",
+                      i === 1 && "z-10 motion-safe:animate-float",
+                      i === 2 && "-translate-x-[18%] rotate-[12deg] motion-safe:animate-float-slow",
+                    )}
+                  />
+                );
+              })}
+            </div>
+          </Reveal>
         </div>
       </section>
 

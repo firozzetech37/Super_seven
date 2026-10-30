@@ -48,32 +48,32 @@ export default function ContactPage(props: PageProps<"/contact">) {
         }
       />
 
-
       <section className="relative isolate flow-root bg-surface pb-16 lg:pb-20">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
           <GroundWatermark className="parallax-slow absolute -left-40 top-24 w-[760px] text-navy/[0.035]" />
         </div>
-      <nav aria-label="On this page" className="relative z-10 mx-auto -mt-8 mb-14 max-w-7xl px-4 sm:px-6">
-        <Reveal as="ul" stagger={90} className="grid gap-3 sm:grid-cols-3">
-          {jumps.map(({ href, label, text, icon: Icon }) => (
-            <li key={href}>
-              <a
-                href={href}
-                className="group card-premium flex h-full items-center gap-4 rounded-2xl bg-white p-4 shadow-[0_18px_40px_rgba(15,46,99,0.12)] ring-1 ring-line transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_rgba(15,46,99,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royal"
-              >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-royal/10 text-royal transition duration-300 group-hover:-rotate-6 group-hover:bg-royal group-hover:text-white">
-                  <Icon className="size-5" aria-hidden="true" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block font-bold text-navy">{label}</span>
-                  <span className="block truncate text-sm text-slate-500">{text}</span>
-                </span>
-                <ArrowDown className="size-4 shrink-0 text-slate-300 transition duration-300 group-hover:translate-y-0.5 group-hover:text-royal" aria-hidden="true" />
-              </a>
-            </li>
-          ))}
-        </Reveal>
-      </nav>
+        <nav aria-label="On this page" className="relative z-10 mx-auto -mt-8 mb-14 max-w-7xl px-4 sm:px-6">
+          <Reveal as="ul" stagger={90} className="grid gap-3 sm:grid-cols-3">
+            {jumps.map(({ href, label, text, icon: Icon }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  className="group card-premium flex h-full items-center gap-4 rounded-2xl bg-white p-4 shadow-[0_18px_40px_rgba(15,46,99,0.12)] ring-1 ring-line transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_56px_rgba(15,46,99,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-royal"
+                >
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-royal/10 text-royal transition duration-300 group-hover:-rotate-6 group-hover:bg-royal group-hover:text-white">
+                    <Icon className="size-5" aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-bold text-navy">{label}</span>
+                    <span className="block truncate text-sm text-slate-500">{text}</span>
+                  </span>
+                  <ArrowDown className="size-4 shrink-0 text-slate-300 transition duration-300 group-hover:translate-y-0.5 group-hover:text-royal" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </Reveal>
+        </nav>
+
         <div id="leadership" className="mx-auto max-w-7xl scroll-mt-28 px-4 sm:px-6">
           <SectionHeading eyebrow="Leadership" title="Who to write to" description="President, Secretary and Chief Operating Officer, with direct contact." />
           <Reveal stagger className="mt-10 grid gap-6 md:grid-cols-3">

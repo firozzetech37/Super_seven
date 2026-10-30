@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ArrowRight, Building2, LockKeyhole, Mail, User, Users } from "lucide-react";
 import { FormProgress } from "@/components/forms/form-progress";
 import { SectionHeading } from "@/components/layout/section-heading";
-import { Reveal } from "@/components/motion/reveal";
 import { site } from "@/lib/site";
 import { RegistrationSteps } from "./registration-steps";
 import { registerFormId, sectionsByForm } from "./sections";

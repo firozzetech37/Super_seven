@@ -27,7 +27,7 @@ export const site = {
       href: "https://www.facebook.com/profile.php?id=61595635310951",
     },
     { id: "instagram", label: "Instagram", href: "https://www.instagram.com/super7indiancricketteam/" },
-    { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { id: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/super-seven-cricket-federation-of-india/" },
     {
       id: "youtube",
       label: "YouTube",
@@ -185,7 +185,7 @@ export const navigation: NavItem[] = [
     href: "/rules",
     children: [
       { label: "Rule book (English)", href: "/rules#english", description: "How Super Seven cricket is played" },
-      { label: "Rulebook in 16 languages", href: "/rules/rulebook", description: "हिन्दी, বাংলা, தமிழ் and thirteen more" },
+      { label: "Rulebook in 17 languages", href: "/rules/rulebook", description: "English, हिन्दी, বাংলা, தமிழ் and thirteen more" },
       { label: "Glossary", href: "/rules#glossary", description: "Terms used on this site" },
     ],
   },

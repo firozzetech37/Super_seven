@@ -9,32 +9,32 @@ import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { PageFan } from "@/components/rules/page-fan";
 import { RulebookExplorer } from "@/components/rules/rulebook-explorer";
-import { rulebookLanguages, rulebookPages, rulebookPdf, rulebookReviewRecordPage, scriptClass } from "@/lib/data/rulebook";
+import { englishRulebookPages, englishRulebookPdf, rulebookLanguages, rulebookPages, rulebookPdf, rulebookReviewRecordPage, scriptClass } from "@/lib/data/rulebook";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Rulebook in 16 languages",
+  title: "Rulebook in English and 16 Indian languages",
   description:
-    "The Super Seven cricket rulebook in Sanskrit, Hindi, Bengali, Marathi, Gujarati, Kannada, Tamil, Telugu, Malayalam, Odia, Urdu, Punjabi, Nepali, Mizo, Khasi and Manipuri. Forty rules, read online or download.",
+    "The official English rulebook of Super Seven cricket, with translations in Sanskrit, Hindi, Bengali, Marathi, Gujarati, Kannada, Tamil, Telugu, Malayalam, Odia, Urdu, Punjabi, Nepali, Mizo, Khasi and Manipuri. Forty rules, read online or download.",
 };
 
 const stats = [
   { value: rulebookLanguages.length, label: "Languages" },
   { value: 40, label: "Rules in each" },
-  { value: rulebookPages, label: "Pages" },
+  { value: englishRulebookPages + rulebookPages, label: "Pages, both books" },
   { value: 2003, label: "Federation founded", plain: true },
 ];
 
 const notes = [
   {
     icon: BookOpen,
-    title: "Translated from one source",
-    text: "Every language is a translation of the English Pocket Rulebook of Super Seven Cricket, so Rule 21 means the same thing in Tamil as it does in Punjabi. Until a translation is approved, any discrepancy is checked against the English text.",
+    title: "English is the original",
+    text: "The English Pocket Rulebook, written by the Technical Committee, is the official text. Every other language is translated from it, so Rule 21 means the same in Tamil as in Punjabi; if a translation ever disagrees, the English text decides.",
   },
   {
     icon: ClipboardCheck,
     title: "Under Technical Committee review",
-    text: `This edition is submitted for clause-by-clause verification. The review record on page ${rulebookReviewRecordPage} names the native-language and technical reviewer for each language, with the decision and date.`,
+    text: `The sixteen translations are submitted for clause-by-clause verification. The review record on page ${rulebookReviewRecordPage} names the native-language and technical reviewer for each language, with the decision and date.`,
   },
   {
     icon: MessageSquareWarning,
@@ -50,23 +50,32 @@ export default function RulebookPage() {
     <>
       <PageHeader
         eyebrow="Door 3 · Rules"
-        title="The rulebook in 16 Indian languages"
-        description="Forty rules of Super Seven cricket, from Teams to Protest, in the language you play in. Read any rule online or download the whole book."
-        crumbs={[{ label: "Rules", href: "/rules" }, { label: "Multilingual rulebook" }]}
+        title="The rulebook, in English and 16 Indian languages"
+        description="Forty rules of Super Seven cricket, from Teams to Protest: the official English rulebook and its translations into sixteen Indian languages. Read any rule online or download the books."
+        crumbs={[{ label: "Rules", href: "/rules" }, { label: "Rulebook" }]}
         aside={
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href={rulebookPdf}
+              href={englishRulebookPdf}
               download
               className="group inline-flex items-center gap-2 rounded-full bg-gold px-5 py-3 font-bold text-navy transition hover:bg-gold-deep"
             >
               <Download className="size-4" aria-hidden="true" />
-              Download PDF
-              <span className="text-navy/60">5 MB</span>
+              English PDF
+              <span className="text-navy/60">1 MB</span>
+            </a>
+            <a
+              href={rulebookPdf}
+              download
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-bold text-white ring-2 ring-white/40 transition hover:bg-white/10"
+            >
+              <Download className="size-4" aria-hidden="true" />
+              16 translations
+              <span className="text-white/60">5 MB</span>
             </a>
             <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white ring-1 ring-white/20">
               <span aria-hidden="true" className="size-2 rounded-full bg-status-talks" />
-              Under review
+              Translations under review
             </span>
           </div>
         }
@@ -83,9 +92,9 @@ export default function RulebookPage() {
               <Languages className="size-4" aria-hidden="true" />
               Multilingual edition
             </p>
-            <h2 className="mt-3 font-heading text-3xl font-bold sm:text-4xl">One game, read in sixteen scripts</h2>
+            <h2 className="mt-3 font-heading text-3xl font-bold sm:text-4xl">One game, read in seventeen languages</h2>
             <p className="mt-3 max-w-xl text-white/80">
-              Sanskrit to Manipuri, Devanagari to Nastaliq. The same forty rules and glossary in every section, with a rule index at the top of each
+              English to Manipuri, Latin script to Nastaliq. The same forty rules and glossary in every section, with a rule index at the top of each
               so an umpire, scorer or captain can find a clause in seconds.
             </p>
             <Reveal stagger as="dl" className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">

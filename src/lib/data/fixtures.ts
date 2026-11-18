@@ -3,7 +3,7 @@ export type UpcomingFixture = {
   title: string;
   city?: string;
   href: string;
-  /** Sample entries are placeholders until real fixtures come from Supabase. */
+  /** True for fixtures in a tournament flagged as sample data in the database. */
   sample?: boolean;
   /** Present when the fixture comes from the database. */
   teams?: string;
@@ -11,12 +11,6 @@ export type UpcomingFixture = {
   time?: string;
   venue?: string;
 };
-
-export const upcomingFixtures: UpcomingFixture[] = [
-  { id: "district-cup-hooghly", title: "District Cup", city: "Hooghly", href: "/fixtures" },
-  { id: "corporate-fun-friday", title: "Corporate Fun Friday", city: "Gurugram", href: "/fixtures" },
-  { id: "youth-national", title: "Youth National Championship", href: "/fixtures", sample: true },
-];
 
 /* ---------- Results archive: National Cricket League Super 7, Amroha, June 2014 ---------- */
 
@@ -51,11 +45,11 @@ export const tournament2014 = {
   sessions: "Morning 7–11 am (4 matches) and evening 6–10 pm (5 matches).",
   friendly: "A friendly between Secretary XI and President XI opened the tournament on the night of 21 June.",
   documents: [
-    { label: "Fixture and groups (PDF)", href: "https://sscfi.org/images/FIXTURE.pdf" },
-    { label: "League results, 22–24 June (PDF)", href: "https://sscfi.org/images/NCL-S7-League-Matches-Results.pdf" },
-    { label: "Quarter-final results (PDF)", href: "https://sscfi.org/images/NCL-S7-Result-Quarter-Final.pdf" },
-    { label: "Semi-final results (PDF)", href: "https://sscfi.org/images/NCL-S7-Result-Sami-Final.pdf" },
-    { label: "Final result (PDF)", href: "https://sscfi.org/images/NCL-S7-Result-Final.pdf" },
+    { label: "Fixture and groups (PDF)", href: "/documents/2014/FIXTURE.pdf" },
+    { label: "League results, 22–24 June (PDF)", href: "/documents/2014/NCL-S7-League-Matches-Results.pdf" },
+    { label: "Quarter-final results (PDF)", href: "/documents/2014/NCL-S7-Result-Quarter-Final.pdf" },
+    { label: "Semi-final results (PDF)", href: "/documents/2014/NCL-S7-Result-Sami-Final.pdf" },
+    { label: "Final result (PDF)", href: "/documents/2014/NCL-S7-Result-Final.pdf" },
   ],
 };
 

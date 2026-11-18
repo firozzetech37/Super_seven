@@ -18,7 +18,7 @@ const icons: Record<DocCategory, LucideIcon> = { rules: BookOpen, forms: Clipboa
 const groups = order.map((c) => ({ id: c, docs: documents.filter((d) => d.category === c) })).filter((g) => g.docs.length);
 
 /** Documents hosted on this site get the wide navy card; the multilingual rulebook also reads online. */
-const readOnline: Record<string, string> = { "rulebook-multilingual": "/rules/rulebook" };
+const readOnline: Record<string, string> = { "rulebook-english": "/rules/rulebook?lang=english#reader", "rulebook-multilingual": "/rules/rulebook?lang=hindi#reader" };
 
 export default function DocumentsPage() {
   return (
@@ -68,9 +68,9 @@ export default function DocumentsPage() {
       </nav>
 
       <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:py-16">
-        <NoticeCard title="2014 documents open from the old site">
-          The multilingual rulebook is hosted here and also published as a page in sixteen languages. The 2014 PDFs still open from the old
-          sscfi.org in a new tab until they are migrated.
+        <NoticeCard title="The 2014 papers, kept as published">
+          The fixture, results, rules, state officials and registration form from 2014 are kept here exactly as they were issued, and old
+          sscfi.org links to them still open. The rulebook is also published as a page, in English and sixteen Indian languages.
         </NoticeCard>
 
         <div className="mt-14">
@@ -96,18 +96,24 @@ export default function DocumentsPage() {
                   </span>
                   <span aria-hidden="true" className="h-px flex-1 bg-[linear-gradient(90deg,#e2e5ef,transparent)]" />
                 </Reveal>
-                <Reveal stagger={90} as="ul" className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                  {featured.map((d) => (
-                    <li key={d.id} className="sm:col-span-2">
-                      <FeaturedDocument doc={d} readHref={readOnline[d.id]} />
-                    </li>
-                  ))}
-                  {rest.map((d) => (
-                    <li key={d.id}>
-                      <DocumentCard doc={d} />
-                    </li>
-                  ))}
-                </Reveal>
+                {featured.length ? (
+                  <Reveal stagger={90} as="ul" className="mt-6 grid gap-5 lg:grid-cols-2">
+                    {featured.map((d) => (
+                      <li key={d.id} className={featured.length === 1 ? "lg:col-span-2" : undefined}>
+                        <FeaturedDocument doc={d} readHref={readOnline[d.id]} />
+                      </li>
+                    ))}
+                  </Reveal>
+                ) : null}
+                {rest.length ? (
+                  <Reveal stagger={90} as="ul" className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {rest.map((d) => (
+                      <li key={d.id}>
+                        <DocumentCard doc={d} />
+                      </li>
+                    ))}
+                  </Reveal>
+                ) : null}
               </section>
             );
           })}

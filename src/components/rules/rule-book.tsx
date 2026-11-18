@@ -8,7 +8,7 @@ import type { RuleSection } from "@/lib/data/rules";
 
 type Lang = "en" | "bn";
 
-/** Numbered rule book with an English/Bengali switch. The Bengali tab points to the full translation in the multilingual rulebook. */
+/** Numbered rule summary with an English/Bengali switch; both point on to the full rulebook (the English original, or the Bengali translation). */
 export function RuleBook({ sections }: { sections: RuleSection[] }) {
   const [lang, setLang] = useState<Lang>("en");
 
@@ -58,6 +58,20 @@ export function RuleBook({ sections }: { sections: RuleSection[] }) {
         ))}
       </ol>
 
+      <div hidden={lang !== "en"} className="mt-6 flex flex-col gap-4 rounded-2xl bg-navy p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-[15px] leading-relaxed text-white/85">
+          <span className="block font-heading text-lg font-bold text-white">This is a summary.</span>
+          The official English Pocket Rulebook has every clause of all forty rules, the preface and the glossary.
+        </p>
+        <Link
+          href="/rules/rulebook?lang=english#reader"
+          className="group inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-gold px-5 py-2.5 font-bold text-navy transition hover:bg-gold-deep sm:self-center"
+        >
+          Read the full English rulebook
+          <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+        </Link>
+      </div>
+
       <div id="rules-bn" role="tabpanel" hidden={lang !== "bn"} className="mt-8 rounded-2xl bg-white p-8 ring-1 ring-line">
         <div className="flex items-start gap-4">
           <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-royal/10 text-royal">
@@ -67,7 +81,7 @@ export function RuleBook({ sections }: { sections: RuleSection[] }) {
             <p className="font-bengali text-xl font-bold text-navy">বাংলায় সম্পূর্ণ নিয়মাবলী</p>
             <p className="mt-2 text-[16px] leading-relaxed text-slate-600">
               The complete forty-rule book in Bengali is published in the multilingual rulebook, pages 30 to 44, alongside fifteen other
-              languages. The translation is under Technical Committee review; the English text is the reference until it is approved.
+              translations. The translation is under Technical Committee review; the English text is the reference until it is approved.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link
@@ -78,7 +92,7 @@ export function RuleBook({ sections }: { sections: RuleSection[] }) {
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
               <Link href="/rules/rulebook" className="inline-flex items-center gap-2 rounded-full bg-surface px-5 py-2.5 font-bold text-navy ring-1 ring-line transition hover:ring-royal">
-                All 16 languages
+                All 17 languages
               </Link>
             </div>
           </div>

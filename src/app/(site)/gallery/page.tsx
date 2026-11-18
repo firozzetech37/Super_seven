@@ -3,13 +3,13 @@ import { ArrowRight, BellRing, ExternalLink, Play } from "lucide-react";
 import { JumpLinks } from "@/components/fixtures/jump-links";
 import { AlbumIndex } from "@/components/gallery/album-index";
 import { PhotoGrid } from "@/components/gallery/photo-grid";
-import { PressFilter } from "@/components/gallery/press-filter";
+import { PressArchive } from "@/components/gallery/press-archive";
 import { VideoEmbed } from "@/components/gallery/video-embed";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { Reveal } from "@/components/motion/reveal";
-import { albums, featuredVideo, pressYears } from "@/lib/data/gallery";
+import { getAlbums, getClippings, getFeaturedVideo } from "@/lib/queries/gallery";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -23,7 +23,8 @@ const jump = [
   { label: "Videos", href: "#videos" },
 ];
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const [albums, clippings, featuredVideo] = await Promise.all([getAlbums(), getClippings(), getFeaturedVideo()]);
   const youtube = site.social.find((s) => s.id === "youtube");
   const photoCount = albums.reduce((n, a) => n + a.photos.length, 0);
 
@@ -47,7 +48,7 @@ export default function GalleryPage() {
                 Albums, <span className="text-royal">{photoCount} photographs</span>
               </>
             }
-            description="Carried over from the old site and grouped by event. Click any photo to open it; use the arrow keys to move through an album."
+            description="Every photo from the old site, grouped by event. Click any photo to open it; use the arrow keys to move through an album."
           />
           <div className="mt-10">
             <AlbumIndex albums={albums} />
@@ -99,10 +100,10 @@ export default function GalleryPage() {
                 In the papers <span className="text-gold">since 2003</span>
               </>
             }
-            description="Newspaper coverage of Super Seven cricket, by year. Pick a year to see its count."
+            description={`Newspaper coverage of Super Seven cricket${clippings.length ? ` from ${clippings[0].year} to ${clippings[clippings.length - 1].year}` : ""}. Pick a year on the chart, then tap a cutting to read it.`}
           />
           <div className="mt-10">
-            <PressFilter years={pressYears} />
+            <PressArchive clippings={clippings} />
           </div>
         </div>
       </section>

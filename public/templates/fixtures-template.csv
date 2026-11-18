@@ -1,0 +1,10 @@
+match_no,stage,group,team_a,team_b,date,time,venue,label
+1,league,A,Uttar Pradesh,Punjab,05/12/2026,09:00,Abbasi Cricket Ground,
+2,league,A,Punjab,Delhi,05/12/2026,10:00,Abbasi Cricket Ground,
+3,league,A,Delhi,Uttar Pradesh,05/12/2026,11:00,Abbasi Cricket Ground,
+4,league,B,Mumbai,Gujarat,05/12/2026,18:00,Abbasi Cricket Ground,
+5,league,B,Gujarat,Haryana,05/12/2026,19:00,Abbasi Cricket Ground,
+6,league,B,Haryana,Mumbai,05/12/2026,20:00,Abbasi Cricket Ground,
+7,semi-final,,Winner A,Runner-up B,06/12/2026,18:00,Abbasi Cricket Ground,Semi-final 1
+8,semi-final,,Winner B,Runner-up A,06/12/2026,19:00,Abbasi Cricket Ground,Semi-final 2
+9,final,,Winner SF1,Winner SF2,07/12/2026,19:00,Abbasi Cricket Ground,Final

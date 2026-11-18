@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Expand, Images, X } from "lucide-react";
+import { ChevronRight, Expand, Images } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
+import { PhotoViewer } from "@/components/gallery/photo-viewer";
 import { cn } from "@/lib/utils";
 import type { Photo } from "@/lib/data/gallery";
 
@@ -24,20 +25,9 @@ function leftover(n: number, cols: number) {
   return (cols - (cells % cols)) % cols;
 }
 
-/** Bento grid of an album (lead photo large) with a native <dialog> lightbox: arrow keys, Escape, backdrop click, thumbnails. */
+/** Bento grid of an album (lead photo large); photos open in the shared PhotoViewer lightbox. */
 export function PhotoGrid({ photos, albumTitle }: { photos: Photo[]; albumTitle: string }) {
   const [index, setIndex] = useState<number | null>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const d = dialogRef.current;
-    if (!d) return;
-    if (index !== null && !d.open) d.showModal();
-    if (index === null && d.open) d.close();
-  }, [index]);
-
-  const step = (delta: number) => setIndex((i) => (i === null ? i : (i + delta + photos.length) % photos.length));
-  const current = index === null ? null : photos[index];
   const filler = cn(fillerSpan.base[leftover(photos.length, 2)], fillerSpan.sm[leftover(photos.length, 3)], fillerSpan.lg[leftover(photos.length, 4)]);
 
   return (
@@ -115,97 +105,7 @@ export function PhotoGrid({ photos, albumTitle }: { photos: Photo[]; albumTitle:
         </li>
       </Reveal>
 
-      <dialog
-        ref={dialogRef}
-        onClose={() => setIndex(null)}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setIndex(null);
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight") step(1);
-          if (e.key === "ArrowLeft") step(-1);
-        }}
-        aria-label={`${albumTitle} photo viewer`}
-        className="m-auto w-[min(94vw,980px)] max-w-none overflow-visible bg-transparent p-0 text-white backdrop:bg-navy-deep/90 backdrop:backdrop-blur-md open:animate-in open:fade-in-0 open:zoom-in-95"
-      >
-        {current && index !== null ? (
-          <div className="relative overflow-hidden rounded-3xl bg-navy-deep/80 p-2 shadow-[0_40px_90px_rgba(0,0,0,0.5)] ring-1 ring-white/10 sm:p-3">
-            <div className="flex items-center justify-between gap-3 px-2 pb-2 pt-1 sm:px-3">
-              <p className="min-w-0 truncate text-[11px] font-bold uppercase tracking-[0.2em] text-gold">{albumTitle}</p>
-              <div className="flex shrink-0 items-center gap-2">
-                <span className="rounded-full bg-white/10 px-2.5 py-1 font-mono text-[11px] font-bold text-white/85 ring-1 ring-white/15">
-                  {String(index + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setIndex(null)}
-                  aria-label="Close"
-                  className="grid size-9 place-items-center rounded-full bg-white text-navy shadow-lg transition hover:rotate-90 hover:bg-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                >
-                  <X className="size-5" aria-hidden="true" />
-                </button>
-              </div>
-            </div>
-
-            <div className="relative overflow-hidden rounded-2xl bg-black/30">
-              <Image
-                key={current.src}
-                src={current.src}
-                alt={current.alt}
-                width={current.width}
-                height={current.height}
-                sizes="(min-width: 1024px) 960px, 94vw"
-                className="mx-auto h-auto max-h-[64vh] w-full object-contain motion-safe:animate-in motion-safe:fade-in-0 motion-safe:zoom-in-95 motion-safe:duration-500"
-              />
-              {photos.length > 1 ? (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => step(-1)}
-                    aria-label="Previous photo"
-                    className="absolute left-2 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-navy-deep/70 text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-gold hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                  >
-                    <ChevronLeft className="size-6" aria-hidden="true" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => step(1)}
-                    aria-label="Next photo"
-                    className="absolute right-2 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full bg-navy-deep/70 text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-gold hover:text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                  >
-                    <ChevronRight className="size-6" aria-hidden="true" />
-                  </button>
-                </>
-              ) : null}
-            </div>
-
-            <p key={index} aria-live="polite" className="px-2 pt-3 text-sm leading-snug text-white/85 sm:px-3 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-1 motion-safe:duration-500">
-              {current.alt}
-            </p>
-
-            {photos.length > 1 ? (
-              <ul className="mt-3 flex gap-2 overflow-x-auto px-2 pb-2 sm:px-3">
-                {photos.map((p, i) => (
-                  <li key={p.src} className="shrink-0">
-                    <button
-                      type="button"
-                      onClick={() => setIndex(i)}
-                      aria-label={`Show photo ${i + 1}`}
-                      aria-current={i === index}
-                      className={cn(
-                        "relative block h-12 w-[72px] overflow-hidden rounded-lg ring-2 transition duration-300 focus-visible:outline-none focus-visible:ring-gold sm:h-14 sm:w-[88px]",
-                        i === index ? "ring-gold" : "opacity-50 ring-transparent hover:opacity-100",
-                      )}
-                    >
-                      <Image src={p.src} alt="" fill sizes="88px" className="object-cover" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-        ) : null}
-      </dialog>
+      <PhotoViewer photos={photos} index={index} onIndexChange={setIndex} title={albumTitle} />
     </>
   );
 }

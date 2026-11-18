@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Fragment } from "react";
-import { ArrowRight, ArrowUpRight, CalendarDays, ChevronRight, FileText, MapPin, Trophy } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarClock, CalendarDays, ChevronRight, FileText, MapPin, Trophy } from "lucide-react";
 import { JumpLinks } from "@/components/fixtures/jump-links";
 import { MatchCard } from "@/components/fixtures/match-card";
 import { ResultCard } from "@/components/fixtures/result-card";
+import { TournamentCard } from "@/components/fixtures/tournament-card";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { StandingsEmpty, StandingsTable } from "@/components/fixtures/standings-table";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
 import { CountUp } from "@/components/motion/count-up";
 import { leagueSummary2014, results2014, tournament2014 } from "@/lib/data/fixtures";
-import { getLeagueStandings, getUpcomingFixtures } from "@/lib/queries/fixtures";
+import { getLeagueStandings, getRecentResults, getTournaments, getUpcomingFixtures } from "@/lib/queries/fixtures";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
@@ -19,12 +20,6 @@ export const metadata: Metadata = {
   description: "Upcoming Super Seven fixtures, results from every stage, league tables and the NCL S7 Amroha 2014 archive.",
 };
 
-const jump = [
-  { label: "Upcoming", href: "#upcoming" },
-  { label: "Results", href: "#results" },
-  { label: "League tables", href: "#tables" },
-  { label: "2014 archive", href: "#archive" },
-];
 
 const archiveFacts = [
   { label: "Teams", value: tournament2014.teams },
@@ -59,7 +54,14 @@ function StageHeading({ title, note }: { title: string; note?: string }) {
 }
 
 export default async function FixturesPage() {
-  const [upcomingFixtures, standings] = await Promise.all([getUpcomingFixtures(), getLeagueStandings()]);
+  const [upcomingFixtures, standings, recent, tournaments] = await Promise.all([getUpcomingFixtures(), getLeagueStandings(), getRecentResults(), getTournaments()]);
+  const jump = [
+    { label: "Upcoming", href: "#upcoming" },
+    { label: "Results", href: "#results" },
+    ...(tournaments.length ? [{ label: "Tournaments", href: "#tournaments" }] : []),
+    { label: "League tables", href: "#tables" },
+    { label: "2014 archive", href: "#archive" },
+  ];
   const final = results2014.find((r) => r.stage === "final");
   const semis = results2014.filter((r) => r.stage === "semi");
   const quarters = results2014.filter((r) => r.stage === "quarter");
@@ -106,11 +108,38 @@ export default async function FixturesPage() {
               </Link>
             }
           />
-          <Reveal stagger={110} className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {upcomingFixtures.map((f, i) => (
-              <MatchCard key={f.id} fixture={f} index={i} />
-            ))}
-          </Reveal>
+          {upcomingFixtures.length ? (
+            <Reveal stagger={110} className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {upcomingFixtures.map((f, i) => (
+                <MatchCard key={f.id} fixture={f} index={i} />
+              ))}
+            </Reveal>
+          ) : (
+            <Reveal from="scale" className="mt-10">
+              <div className="relative isolate overflow-hidden rounded-3xl bg-stadium px-6 py-10 text-white shadow-[0_30px_70px_rgba(15,46,99,0.25)] sm:px-10 sm:py-12">
+                <GroundWatermark className="absolute -right-24 -top-24 -z-10 w-[560px] text-white/[0.06]" />
+                <div className="absolute -left-20 -bottom-24 -z-10 size-72 rounded-full bg-gold/15 blur-[90px]" aria-hidden="true" />
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-start gap-5">
+                    <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gold text-navy shadow-[0_12px_28px_rgba(217,174,86,0.35)]">
+                      <CalendarClock className="size-7" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-gold">Next season</p>
+                      <p className="mt-1.5 font-heading text-2xl font-bold sm:text-3xl">Fixtures to be announced</p>
+                      <p className="mt-2 max-w-xl text-white/70">
+                        The next schedule is published here and in the ticker as soon as SSCFI confirms dates and venues. Enter your team now to be in the draw.
+                      </p>
+                    </div>
+                  </div>
+                  <Link href="/register/team" className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-white px-6 py-3 font-bold text-navy transition hover:bg-gold sm:self-center">
+                    Register a team
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </Reveal>
+          )}
         </div>
       </section>
 
@@ -118,9 +147,27 @@ export default async function FixturesPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
             eyebrow="Results"
-            title={tournament2014.shortName}
-            description={`${tournament2014.venue}. Knockout scores from the official result sheets.`}
+            title={recent.length ? "Latest results" : tournament2014.shortName}
+            description={
+              recent.length ? "The most recent scores, entered by SSCFI as each match finishes." : `${tournament2014.venue}. Knockout scores from the official result sheets.`
+            }
           />
+          {recent.length ? (
+            <>
+              <Reveal stagger={90} className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                {recent.map((r) => (
+                  <div key={r.id} className="flex flex-col gap-2">
+                    <Link href={r.href} className="inline-flex items-center gap-1.5 self-start text-[11px] font-bold uppercase tracking-[0.18em] text-royal hover:text-navy">
+                      {r.tournament}
+                      <ChevronRight className="size-3.5" aria-hidden="true" />
+                    </Link>
+                    <ResultCard result={r} />
+                  </div>
+                ))}
+              </Reveal>
+              <StageHeading title={tournament2014.shortName} note="Archive" />
+            </>
+          ) : null}
           {final ? (
             <Reveal from="scale" className="mt-10">
               <ResultCard result={final} variant="final" />
@@ -171,12 +218,33 @@ export default async function FixturesPage() {
                 ))}
               </dl>
               <p className="relative mt-5 text-sm leading-relaxed text-slate-500">
-                All 24 league scorecards are in the official PDF in the archive below; they move into the database in Phase 2.
+                All 24 league scorecards are in the official PDF in the archive below.
               </p>
             </div>
           </Reveal>
         </div>
       </section>
+
+      {tournaments.length ? (
+        <section id="tournaments" className="scroll-mt-28 bg-white py-16 lg:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6">
+            <SectionHeading
+              eyebrow="Tournaments"
+              title={
+                <>
+                  Every <span className="text-royal">tournament</span>
+                </>
+              }
+              description="Each one has its own page with the full schedule, scores as they come in and its league table."
+            />
+            <Reveal stagger={100} className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {tournaments.map((t) => (
+                <TournamentCard key={t.id} t={t} />
+              ))}
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       <section id="tables" className="relative isolate scroll-mt-28 overflow-hidden bg-stadium py-16 text-white lg:py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">

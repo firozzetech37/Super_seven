@@ -6,7 +6,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { Check, ChevronLeft, ChevronRight, Download, ExternalLink, Link2, ListOrdered } from "lucide-react";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { Reveal } from "@/components/motion/reveal";
-import { englishRuleTitle, pdfPageUrl, ruleChapters, rulebookPdf, scriptClass, type RulebookLanguage } from "@/lib/data/rulebook";
+import { englishRuleTitle, pdfPageUrl, ruleChapters, scriptClass, type RulebookLanguage } from "@/lib/data/rulebook";
 import { cn } from "@/lib/utils";
 
 const WIDE = "(min-width: 1024px)";
@@ -19,7 +19,7 @@ const subscribeWide = (cb: () => void) => {
 const scrollToReader = () => document.getElementById("reader")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
 /**
- * Language picker, rule list and PDF reader for the multilingual rulebook.
+ * Language picker, rule list and PDF reader for the rulebook: the English original (the default) and its sixteen translations.
  * Desktop embeds the PDF at the chosen page; phones get a page preview and open the PDF in their own viewer.
  * The choice is mirrored into ?lang=&rule= so a rule in a language can be linked.
  */
@@ -28,7 +28,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
   const fromUrl = languages.find((l) => l.slug === params.get("lang"));
   const ruleFromUrl = Number(params.get("rule"));
 
-  const [slug, setSlug] = useState((fromUrl ?? languages.find((l) => l.slug === "hindi") ?? languages[0]).slug);
+  const [slug, setSlug] = useState((fromUrl ?? languages.find((l) => l.slug === "english") ?? languages[0]).slug);
   const [rule, setRule] = useState<number | null>(ruleFromUrl >= 1 && ruleFromUrl <= 40 ? ruleFromUrl : null);
   const [loadedPage, setLoadedPage] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
@@ -65,7 +65,8 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
     }
   };
 
-  const viewerSrc = `${rulebookPdf}#page=${page}&zoom=page-width&view=FitH&toolbar=0&navpanes=0`;
+  const viewerSrc = `${lang.pdf}#page=${page}&zoom=page-width&view=FitH&toolbar=0&navpanes=0`;
+  const ruleTitle = (n: number) => (lang.original ? lang.rules[n - 1]?.title : englishRuleTitle.get(n));
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -73,8 +74,8 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
       <section id="languages" className="scroll-mt-28">
         <SectionHeading
           eyebrow="1 · Choose a language"
-          title="Sixteen languages, one rulebook"
-          description="Every language carries the same forty rules and glossary. Tap one to read it below."
+          title="The official English rulebook, and sixteen translations"
+          description="Every language carries the same forty rules and glossary. English is the original; the translations are under Technical Committee review. Tap one to read it below."
         />
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {languages.map((l, i) => {
@@ -92,8 +93,20 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
                       : "bg-white text-navy ring-1 ring-line hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(15,46,99,0.12)]",
                   )}
                 >
-                  <span className={cn("text-[11px] font-bold uppercase tracking-[0.2em]", selected ? "text-gold" : "text-slate-400")}>
-                    {String(l.n).padStart(2, "0")}
+                  <span className="flex items-center gap-2">
+                    <span className={cn("text-[11px] font-bold uppercase tracking-[0.2em]", selected ? "text-gold" : "text-slate-400")}>
+                      {String(l.n).padStart(2, "0")}
+                    </span>
+                    {l.original ? (
+                      <span
+                        className={cn(
+                          "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em]",
+                          selected ? "bg-gold/20 text-gold" : "bg-gold/15 text-[#8a6418] ring-1 ring-gold/40",
+                        )}
+                      >
+                        Official original
+                      </span>
+                    ) : null}
                   </span>
                   <span
                     lang={l.code}
@@ -102,7 +115,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
                   >
                     {l.native}
                   </span>
-                  <span className={cn("mt-1 text-sm", selected ? "text-white/75" : "text-slate-500")}>{l.name}</span>
+                  <span className={cn("mt-1 text-sm", selected ? "text-white/75" : "text-slate-500")}>{l.original ? "Pocket Rulebook" : l.name}</span>
                   <span className={cn("mt-auto pt-4 text-[11px] font-bold uppercase tracking-[0.14em]", selected ? "text-white/60" : "text-slate-400")}>
                     Pages {l.page}–{l.endPage}
                   </span>
@@ -130,7 +143,13 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
               {lang.native !== lang.name ? <span className="text-slate-400"> · {lang.name}</span> : null}
             </>
           }
-          description={current ? `Rule ${current.n}, ${englishRuleTitle.get(current.n)}. Page ${page} of the PDF.` : `The ${lang.name} section runs from page ${lang.page} to ${lang.endPage}. Pick a rule from the list to jump straight to it.`}
+          description={
+            current
+              ? `Rule ${current.n}, ${ruleTitle(current.n)}. Page ${page} of the ${lang.original ? "English" : "multilingual"} PDF.`
+              : lang.original
+                ? `The official English Pocket Rulebook, pages ${lang.page} to ${lang.endPage}: the preface, all forty rules and the glossary. Pick a rule to jump straight to it.`
+                : `The ${lang.name} section runs from page ${lang.page} to ${lang.endPage}. Pick a rule from the list to jump straight to it.`
+          }
         />
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)] lg:items-start">
@@ -184,7 +203,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
                         </span>
                         <span className={cn("block text-[11px]", on ? "text-white/70" : "text-slate-500")}>
                           {r.inferred ? "Heading missing in the PDF · " : ""}
-                          {englishRuleTitle.get(r.n)} · p.{r.page}
+                          {lang.original ? `p.${r.page}` : `${englishRuleTitle.get(r.n)} · p.${r.page}`}
                         </span>
                       </span>
                     </button>
@@ -230,7 +249,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
                   {copied ? "Copied" : "Copy link"}
                 </button>
                 <a
-                  href={pdfPageUrl(page)}
+                  href={pdfPageUrl(lang.pdf, page)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-2 text-xs font-bold transition hover:bg-white/20"
@@ -240,7 +259,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
                   <span className="sm:hidden">Open</span>
                 </a>
                 <a
-                  href={rulebookPdf}
+                  href={lang.pdf}
                   download
                   className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-2 text-xs font-bold text-navy transition hover:bg-gold-deep"
                 >
@@ -270,32 +289,45 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
               )}
             </div>
 
-            {/* Phones and tablets: page preview + open in the device viewer */}
+            {/* Phones and tablets: page preview + open in the device viewer.
+                Tall previews carry the caption over their lower part; the wide English page gets it underneath. */}
             <div className="overflow-hidden rounded-b-3xl bg-white ring-1 ring-line lg:hidden">
-              <div className="relative">
-                <Image
-                  src={lang.thumb}
-                  alt={`First page of the ${lang.name} section`}
-                  width={720}
-                  height={932}
-                  sizes="(max-width: 1024px) 100vw, 0px"
-                  className="w-full"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/85 to-transparent px-5 pb-5 pt-20 text-white">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold">
-                    {current ? `Rule ${current.n} · ${englishRuleTitle.get(current.n)}` : `${lang.name} section`}
-                  </p>
-                  <a
-                    href={pdfPageUrl(page)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 font-bold text-navy transition hover:bg-gold-deep"
-                  >
-                    Open page {page} in your PDF viewer
-                    <ExternalLink className="size-4" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
+              {(() => {
+                const portrait = lang.thumbSize.height > lang.thumbSize.width;
+                const caption = (
+                  <>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gold">
+                      {current ? `Rule ${current.n} · ${ruleTitle(current.n)}` : lang.original ? "English Pocket Rulebook" : `${lang.name} section`}
+                    </p>
+                    <a
+                      href={pdfPageUrl(lang.pdf, page)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-5 py-3 font-bold text-navy transition hover:bg-gold-deep"
+                    >
+                      Open page {page} in your PDF viewer
+                      <ExternalLink className="size-4" aria-hidden="true" />
+                    </a>
+                  </>
+                );
+                return (
+                  <div className="relative">
+                    <Image
+                      src={lang.thumb}
+                      alt={lang.original ? "Rule 1 of the English Pocket Rulebook" : `First page of the ${lang.name} section`}
+                      width={lang.thumbSize.width}
+                      height={lang.thumbSize.height}
+                      sizes="(max-width: 1024px) 100vw, 0px"
+                      className="w-full"
+                    />
+                    {portrait ? (
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/85 to-transparent px-5 pb-5 pt-20 text-white">{caption}</div>
+                    ) : (
+                      <div className="bg-navy px-5 pb-5 pt-4 text-white">{caption}</div>
+                    )}
+                  </div>
+                );
+              })()}
               <p className="px-5 py-3 text-xs text-slate-500">
                 Phones open the PDF in their own viewer; most desktop browsers jump straight to the page. The full in-page reader appears on screens wider than a tablet.
               </p>
@@ -309,7 +341,7 @@ export function RulebookExplorer({ languages }: { languages: RulebookLanguage[] 
         <SectionHeading
           eyebrow="3 · Rule index"
           title="Forty rules in five chapters"
-          description={`Pick a rule to open it in ${lang.name}. Titles are the English ones from the Pocket Rulebook the translations were made from.`}
+          description={`Pick a rule to open it in ${lang.name}. Short English titles; the full headings are in the English rulebook.`}
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {ruleChapters.map((c, i) => (

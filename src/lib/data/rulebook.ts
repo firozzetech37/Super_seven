@@ -1,9 +1,15 @@
 import data from "@/data/rulebook.json";
+import english from "@/data/rulebook-english.json";
 
 /** The multilingual rulebook: 16 languages, 40 rules each, one PDF. Page numbers come from the PDF bookmarks; see docs/RULEBOOK.md. */
 export const rulebookPdf = "/documents/sscfi-multilingual-rulebook.pdf";
 export const rulebookPages = data.pages;
 export const rulebookReviewRecordPage = data.reviewRecordPage;
+
+/** The official English Pocket Rulebook (the original the translations were made from); built by scripts/rulebook/build-english.py. */
+export const englishRulebookPdf = "/documents/sscfi-rulebook-english.pdf";
+export const englishRulebookPages = english.pages;
+export const englishGlossaryPage = english.glossaryPage;
 
 export type Script =
   | "devanagari"
@@ -34,6 +40,11 @@ export type RulebookLanguage = {
   rules: RulebookRule[];
   /** Page preview rendered from the PDF, served from /documents/rulebook/. */
   thumb: string;
+  thumbSize: { width: number; height: number };
+  /** The PDF this language's page numbers refer to. */
+  pdf: string;
+  /** True for the English original; the other sixteen are translations under Technical Committee review. */
+  original: boolean;
 };
 
 const scripts: Record<string, Script> = {
@@ -89,8 +100,9 @@ export const scriptClass: Record<Script, string> = {
   latin: "font-sans",
 };
 
-export const rulebookLanguages: RulebookLanguage[] = data.languages.map((l) => ({
-  n: l.n,
+/** The sixteen translations in the multilingual PDF, numbered 02–17 after English. */
+export const rulebookTranslations: RulebookLanguage[] = data.languages.map((l) => ({
+  n: l.n + 1,
   slug: l.slug,
   name: l.name,
   native: l.native,
@@ -101,13 +113,36 @@ export const rulebookLanguages: RulebookLanguage[] = data.languages.map((l) => (
   endPage: l.endPage,
   rules: l.rules,
   thumb: `/documents/rulebook/${l.slug}.webp`,
+  thumbSize: { width: 720, height: 932 },
+  pdf: rulebookPdf,
+  original: false,
 }));
+
+export const englishRulebook: RulebookLanguage = {
+  n: 1,
+  slug: "english",
+  name: "English",
+  native: "English",
+  script: "latin",
+  dir: "ltr",
+  code: "en",
+  page: english.page,
+  endPage: english.endPage,
+  rules: english.rules,
+  thumb: "/documents/rulebook/english.webp",
+  thumbSize: { width: 720, height: 433 },
+  pdf: englishRulebookPdf,
+  original: true,
+};
+
+/** English first (and the default), then the sixteen translations. */
+export const rulebookLanguages: RulebookLanguage[] = [englishRulebook, ...rulebookTranslations];
 
 export const rulebookCover = "/documents/rulebook/cover.webp";
 
 export const rulebookLanguageBySlug = new Map(rulebookLanguages.map((l) => [l.slug, l]));
 
-/** English titles of the 40 rules, in chapters, for the index. The PDF is translated from the English Pocket Rulebook. */
+/** Short English titles of the 40 rules, in chapters, for the index (the official headings are in the English rulebook). */
 export const ruleChapters: { title: string; blurb: string; rules: { n: number; title: string }[] }[] = [
   {
     title: "Teams and officials",
@@ -183,5 +218,5 @@ export const ruleChapters: { title: string; blurb: string; rules: { n: number; t
 
 export const englishRuleTitle = new Map(ruleChapters.flatMap((c) => c.rules.map((r) => [r.n, r.title] as const)));
 
-/** URL that opens the PDF at a page in the browser's own viewer. */
-export const pdfPageUrl = (page: number) => `${rulebookPdf}#page=${page}`;
+/** URL that opens a rulebook PDF at a page in the browser's own viewer. */
+export const pdfPageUrl = (pdf: string, page: number) => `${pdf}#page=${page}`;

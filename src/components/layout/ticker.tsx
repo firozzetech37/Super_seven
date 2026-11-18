@@ -17,24 +17,33 @@ export async function Ticker() {
           Next matches
         </span>
         <span aria-hidden="true" className="h-5 w-px shrink-0 bg-white/15" />
-        <Marquee>
-          {upcomingFixtures.map((f) => (
-            <span key={f.id} className="whitespace-nowrap">
-              <Link
-                href={f.href}
-                className="inline-flex items-center gap-2 text-[15px] font-bold text-white/90 transition-colors hover:text-gold"
-              >
-                {f.title}
-                {f.city ? <span className="font-normal text-white/65">· {f.city}</span> : null}
-                {f.sample ? (
-                  <span className="rounded-full bg-white/10 px-2 py-px text-[10px] font-bold uppercase tracking-wider text-white/60">
-                    sample
-                  </span>
-                ) : null}
-              </Link>
-            </span>
-          ))}
-        </Marquee>
+        {upcomingFixtures.length ? (
+          <Marquee>
+            {upcomingFixtures.map((f) => (
+              <span key={f.id} className="whitespace-nowrap">
+                <Link
+                  href={f.href}
+                  className="inline-flex items-center gap-2 text-[15px] font-bold text-white/90 transition-colors hover:text-gold"
+                >
+                  {f.title}
+                  {f.city ? <span className="font-normal text-white/65">· {f.city}</span> : null}
+                  {f.sample ? (
+                    <span className="rounded-full bg-white/10 px-2 py-px text-[10px] font-bold uppercase tracking-wider text-white/60">
+                      sample
+                    </span>
+                  ) : null}
+                </Link>
+              </span>
+            ))}
+          </Marquee>
+        ) : (
+          <p className="min-w-0 truncate text-[15px] text-white/80">
+            <span className="font-bold text-white">Fixtures to be announced.</span>{" "}
+            <Link href="/fixtures#results" className="underline decoration-white/30 underline-offset-4 transition-colors hover:text-gold">
+              See the latest results
+            </Link>
+          </p>
+        )}
         <Link
           href="/fixtures"
           className="ml-auto hidden shrink-0 items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] text-white/70 transition-colors hover:text-white md:inline-flex"

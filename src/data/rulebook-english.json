@@ -1,0 +1,209 @@
+{
+  "source": "English Pocket Rulebook of Super Seven Cricket (Technical Committee); the original the multilingual edition was translated from",
+  "pages": 83,
+  "page": 1,
+  "endPage": 82,
+  "glossaryPage": 76,
+  "rules": [
+    {
+      "n": 1,
+      "title": "The Teams",
+      "page": 2
+    },
+    {
+      "n": 2,
+      "title": "Substitutes",
+      "page": 3
+    },
+    {
+      "n": 3,
+      "title": "Runner",
+      "page": 4
+    },
+    {
+      "n": 4,
+      "title": "Fielder Leaving the Field",
+      "page": 5
+    },
+    {
+      "n": 5,
+      "title": "The Umpires",
+      "page": 5
+    },
+    {
+      "n": 6,
+      "title": "The Scorers",
+      "page": 12
+    },
+    {
+      "n": 7,
+      "title": "The Ball",
+      "page": 12
+    },
+    {
+      "n": 8,
+      "title": "The Bat",
+      "page": 14
+    },
+    {
+      "n": 9,
+      "title": "The Field of Play and the Pitch",
+      "page": 14
+    },
+    {
+      "n": 10,
+      "title": "The Wicket",
+      "page": 16
+    },
+    {
+      "n": 11,
+      "title": "The Bowling, Popping and Return Creases",
+      "page": 17
+    },
+    {
+      "n": 12,
+      "title": "Rolling, Sweeping and Re-marking of Creases",
+      "page": 18
+    },
+    {
+      "n": 13,
+      "title": "Innings",
+      "page": 19
+    },
+    {
+      "n": 14,
+      "title": "Covering the Pitch",
+      "page": 20
+    },
+    {
+      "n": 15,
+      "title": "Start of Match",
+      "page": 21
+    },
+    {
+      "n": 16,
+      "title": "Scoring",
+      "page": 22
+    },
+    {
+      "n": 17,
+      "title": "Boundaries",
+      "page": 25
+    },
+    {
+      "n": 18,
+      "title": "The Result",
+      "page": 27
+    },
+    {
+      "n": 19,
+      "title": "The Over",
+      "page": 31
+    },
+    {
+      "n": 20,
+      "title": "Dead Ball",
+      "page": 32
+    },
+    {
+      "n": 21,
+      "title": "No Ball",
+      "page": 35
+    },
+    {
+      "n": 22,
+      "title": "Wide Ball",
+      "page": 40
+    },
+    {
+      "n": 23,
+      "title": "Bye and Leg-Bye",
+      "page": 42
+    },
+    {
+      "n": 24,
+      "title": "Appeals",
+      "page": 43
+    },
+    {
+      "n": 25,
+      "title": "The Wicket is Down",
+      "page": 46
+    },
+    {
+      "n": 26,
+      "title": "Batsman Out of His Ground",
+      "page": 48
+    },
+    {
+      "n": 27,
+      "title": "Bowled",
+      "page": 48
+    },
+    {
+      "n": 28,
+      "title": "Timed Out",
+      "page": 49
+    },
+    {
+      "n": 29,
+      "title": "Caught",
+      "page": 50
+    },
+    {
+      "n": 30,
+      "title": "Handled the Ball",
+      "page": 54
+    },
+    {
+      "n": 31,
+      "title": "Hit the Ball Twice",
+      "page": 54
+    },
+    {
+      "n": 32,
+      "title": "Hit Wicket",
+      "page": 56
+    },
+    {
+      "n": 33,
+      "title": "Leg Before Wicket",
+      "page": 58
+    },
+    {
+      "n": 34,
+      "title": "Obstructing the Field",
+      "page": 59
+    },
+    {
+      "n": 35,
+      "title": "Run Out",
+      "page": 61
+    },
+    {
+      "n": 36,
+      "title": "Stumped",
+      "page": 63
+    },
+    {
+      "n": 37,
+      "title": "The Wicket-Keeper",
+      "page": 64
+    },
+    {
+      "n": 38,
+      "title": "The Fielder",
+      "page": 65
+    },
+    {
+      "n": 39,
+      "title": "Unfair Play",
+      "page": 67
+    },
+    {
+      "n": 40,
+      "title": "Protest",
+      "page": 76
+    }
+  ]
+}

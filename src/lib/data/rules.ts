@@ -1,5 +1,5 @@
 /** Super Seven rules, transcribed from "Highlights: Rules of Super Seven Cricket" (SSCFI PDF). */
-export const rulesPdf = "https://sscfi.org/images/HIGHLIGHTS-RULES-SUPER-SEVEN-CRICKET.pdf";
+export const rulesPdf = "/documents/2014/HIGHLIGHTS-RULES-SUPER-SEVEN-CRICKET.pdf";
 
 export const quickFacts = [
   { value: "7", label: "Players a side" },

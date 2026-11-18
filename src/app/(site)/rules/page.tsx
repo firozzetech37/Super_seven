@@ -8,7 +8,7 @@ import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { PageFan } from "@/components/rules/page-fan";
 import { RuleBook } from "@/components/rules/rule-book";
-import { rulebookLanguages, rulebookPdf, scriptClass } from "@/lib/data/rulebook";
+import { englishRulebookPdf, rulebookLanguages, rulebookPdf, scriptClass } from "@/lib/data/rulebook";
 import { glossary, quickFacts, ruleSections, rulesPdf } from "@/lib/data/rules";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const jump = [
   { label: "Rule book", href: "#english" },
-  { label: "16 languages", href: "#languages" },
+  { label: "Full rulebook", href: "#languages" },
   { label: "Glossary", href: "#glossary" },
 ];
 
@@ -52,7 +52,7 @@ export default function RulesPage() {
           <SectionHeading
             eyebrow="Rule book"
             title="How the game is played"
-            description="Transcribed from the SSCFI highlights sheet. The full forty-rule book, in sixteen languages, is below."
+            description="Transcribed from the SSCFI highlights sheet. The full forty-rule book, in English and sixteen Indian languages, is below."
             action={
               <a
                 href={rulesPdf}
@@ -80,12 +80,12 @@ export default function RulesPage() {
         </div>
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_360px]">
           <Reveal>
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">Multilingual rulebook</p>
-            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">The full rulebook in 16 Indian languages</h2>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-gold">The full rulebook</p>
+            <h2 className="mt-2 font-heading text-3xl font-bold sm:text-4xl">In English and 16 Indian languages</h2>
             <p className="mt-3 max-w-2xl text-white/80">
-              Forty rules, from Teams to Protest, translated from the English Pocket Rulebook into Sanskrit, Hindi, Bengali, Marathi, Gujarati,
-              Kannada, Tamil, Telugu, Malayalam, Odia, Urdu, Punjabi, Nepali, Mizo, Khasi and Manipuri. Read any rule online, in any language,
-              or download the book.
+              Forty rules, from Teams to Protest: the official English Pocket Rulebook, and its translations into Sanskrit, Hindi, Bengali,
+              Marathi, Gujarati, Kannada, Tamil, Telugu, Malayalam, Odia, Urdu, Punjabi, Nepali, Mizo, Khasi and Manipuri. Read any rule
+              online, in any language, or download a book.
             </p>
             <ul className="mt-6 flex flex-wrap gap-2">
               {rulebookLanguages.map((l) => (
@@ -106,9 +106,13 @@ export default function RulesPage() {
                 Open the rulebook
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Link>
-              <a href={rulebookPdf} download className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-bold text-white ring-2 ring-white/50 transition hover:bg-white/10">
+              <a href={englishRulebookPdf} download className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-bold text-white ring-2 ring-white/50 transition hover:bg-white/10">
                 <Download className="size-4" aria-hidden="true" />
-                Download PDF
+                English PDF
+              </a>
+              <a href={rulebookPdf} download className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-bold text-white/85 transition hover:bg-white/10 hover:text-white">
+                <Download className="size-4" aria-hidden="true" />
+                16 translations (PDF)
               </a>
             </div>
           </Reveal>

@@ -4,16 +4,19 @@ export type LegacyDocument = {
   id: string;
   title: string;
   file: string;
-  year: number;
+  /** Year of the edition; left out when the document carries no date (the English Pocket Rulebook). */
+  year?: number;
+  /** Shown instead of the year when there is none. */
+  edition?: string;
   pages: number;
   category: DocCategory;
   description: string;
-  /** Full URL for documents hosted on this site; legacy ones resolve from legacyDocumentBase + file. */
+  /** Path for documents outside the 2014 archive; 2014 ones resolve from legacyDocumentBase + file. */
   href?: string;
 };
 
-/** The 2014 PDFs still hosted on the old site; they move to this site's storage in Phase 2. */
-export const legacyDocumentBase = "https://sscfi.org/images/";
+/** The 2014 PDFs, copied from the old site and served from public/documents/2014 under their original file names. */
+export const legacyDocumentBase = "/documents/2014/";
 
 export const documentCategories: Record<DocCategory, string> = {
   rules: "Rules",
@@ -25,6 +28,16 @@ export const documentCategories: Record<DocCategory, string> = {
 
 export const documents: LegacyDocument[] = [
   {
+    id: "rulebook-english",
+    title: "Rules of Super Seven Cricket: English Pocket Rulebook",
+    file: "sscfi-rulebook-english.pdf",
+    href: "/documents/sscfi-rulebook-english.pdf",
+    edition: "Official text",
+    pages: 83,
+    category: "rules",
+    description: "The official rulebook from the Technical Committee: the preface, all forty rules and the glossary. Every translation is made from this text.",
+  },
+  {
     id: "rulebook-multilingual",
     title: "Super Seven Cricket Multilingual Rulebook",
     file: "sscfi-multilingual-rulebook.pdf",
@@ -32,7 +45,7 @@ export const documents: LegacyDocument[] = [
     year: 2026,
     pages: 173,
     category: "rules",
-    description: "All forty rules and the glossary in sixteen Indian languages, translated from the English Pocket Rulebook. Under Technical Committee review.",
+    description: "All forty rules and the glossary in sixteen Indian languages, translated from the English Pocket Rulebook. The translations are under Technical Committee review.",
   },
   {
     id: "rules-highlights",

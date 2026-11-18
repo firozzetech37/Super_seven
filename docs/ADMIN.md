@@ -4,9 +4,35 @@ SSCFI staff run the site from `/admin`: tournaments, fixtures and results, playe
 
 ## Sign-in
 
-- Passwordless: `/admin/login` emails a one-time link, only to addresses in `public.admins`. Anyone else gets the same reply and no email.
+- **Continue with Google** (shown once Google is enabled in Supabase) or an emailed one-time link (sent only to addresses
+  in `public.admins`; anyone else gets the same reply and no email).
+- Only emails in `public.admins` get through `/admin/auth/confirm`. Any other account (e.g. someone picking a different
+  Google account) is signed out at once and the Supabase user that attempt created is deleted (after re-checking the
+  admin list with the secret key, and never when the check itself errors). Removing an admin also deletes their auth
+  user, which ends their sessions.
 - The link lands on `/admin/auth/confirm`, which accepts both `?code=` (Supabase's default template; open it in the same browser) and `?token_hash=&type=` (works on any device, see below).
 - `src/proxy.ts` refreshes the session cookie on `/admin` requests and sends signed-out visitors to the login page. Pages and server actions re-check with `requireAdmin()` (`src/lib/admin/auth.ts`), and row security (`public.is_admin()`) is the final gate: all admin reads and writes use the signed-in user's session, not the secret key.
+
+## Getting in
+
+- Footer of every page: "Staff login" (goes to `/admin`; signed-out visitors land on the sign-in page).
+- Admin bar: signed-in admins see a slim bar above the public header (`src/components/layout/admin-bar.tsx`) with
+  Dashboard / Fixtures / Media, a shortcut for the current page (Gallery → Add photos, Fixtures → Enter results, …),
+  the count of registrations and enquiries waiting, and Sign out. It only calls `/admin/me` when a Supabase session
+  cookie exists, so ordinary visitors never trigger a request and the public pages stay static.
+- Phone: "Add to Home Screen" on any admin page gives an "SSCFI Admin" icon (`public/admin-app/`). It opens in the
+  normal browser (`display: minimal-ui`, no iOS standalone mode) so the emailed sign-in link and the icon share one session.
+- After launch: point `admin.sscfi.org` at the site (DNS CNAME + Vercel domain) and redirect it to `/admin`.
+
+## Google sign-in setup
+
+1. Google Cloud Console → new project "SSCFI Admin" → APIs & Services → OAuth consent screen: External, app name
+   "SSCFI Admin", support email, scopes email/profile/openid. Leaving it in **Testing** with the admin emails added as
+   test users is an extra lock (only those Google accounts can even reach the consent screen; up to 100).
+2. Credentials → Create credentials → OAuth client ID → Web application. Authorised JavaScript origins:
+   `http://localhost:3000` and the live site; Authorised redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`.
+3. Supabase → Authentication → Sign In / Providers → Google → enable, paste the client ID and secret, save.
+4. The login page checks `/auth/v1/settings` and shows the Google button as soon as the provider is on.
 
 ## One-time setup in Supabase
 

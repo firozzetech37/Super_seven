@@ -13,7 +13,7 @@ async function Body() {
   const { db, email: me } = await requireAdmin();
   const { data: admins } = await db.from("admins").select("email, name, created_at").order("created_at").returns<{ email: string; name: string | null; created_at: string }[]>();
   return (
-    <Panel title="Who can sign in" description="Each person signs in with a link sent to their own email. Nobody shares a password." icon={ShieldCheck}>
+    <Panel title="Who can sign in" description="Only these emails can get in, with Google or an emailed link. Nobody shares a password." icon={ShieldCheck}>
       <ul className="divide-y divide-line">
         {(admins ?? []).map((a) => (
           <li key={a.email} className="flex flex-wrap items-center justify-between gap-3 py-3">
@@ -49,9 +49,9 @@ export default function AdminsPage() {
           </div>
         </AdminForm>
         <p className="mt-5 rounded-xl bg-surface px-4 py-3 text-sm leading-relaxed text-slate-600 ring-1 ring-line">
-          <strong className="text-navy">Sign-in emails:</strong> until a custom email sender is set up in Supabase (Authentication → Emails → SMTP), Supabase only
-          delivers sign-in links to members of the Supabase project and a few per hour. Set up SMTP (for example with Resend and a verified sscfi.org) before adding
-          people outside that team.
+          <strong className="text-navy">How they sign in:</strong> with <strong className="text-navy">Continue with Google</strong> using a Google account
+          on this exact email, or with an emailed link. Any other Google account is turned away and its account deleted. Removing someone here
+          signs them out everywhere.
         </p>
       </Panel>
     </div>

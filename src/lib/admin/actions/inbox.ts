@@ -5,6 +5,7 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/admin/auth";
 import { dbMessage, done, failed, type ActionResult } from "@/lib/admin/result";
 import { getDistrictList, stateByCode } from "@/lib/geo/load";
+import { hasSupabaseAdmin, supabaseAdmin } from "@/lib/supabase/server";
 
 /* District map status, enquiries, newsletter subscribers and the admin list. */
 
@@ -73,6 +74,12 @@ export async function removeAdmin(email: string): Promise<ActionResult> {
   if ((count ?? 0) <= 1) return failed("There must always be at least one admin.");
   const { error } = await admin.db.from("admins").delete().eq("email", email);
   if (error) return failed(dbMessage(error));
+  // Also delete their sign-in account, which ends any session they have open (Google or email link).
+  if (hasSupabaseAdmin) {
+    const { data } = await supabaseAdmin().auth.admin.listUsers({ perPage: 1000 });
+    const user = data?.users.find((u) => u.email?.toLowerCase() === email);
+    if (user) await supabaseAdmin().auth.admin.deleteUser(user.id);
+  }
   refresh();
-  return done("Removed.");
+  return done("Removed, and signed out everywhere.");
 }

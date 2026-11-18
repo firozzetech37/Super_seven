@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s | SSCFI Admin" },
   robots: { index: false, follow: false },
+  // "Add to Home Screen" gives an SSCFI Admin icon. It opens in the normal browser (minimal-ui, no iOS standalone
+  // mode) so the emailed sign-in link and the icon share one session.
+  manifest: "/admin-app/manifest.webmanifest",
+  icons: { apple: "/admin-app/apple-touch-icon.png" },
+  applicationName: "SSCFI Admin",
 };
+
+export const viewport: Viewport = { themeColor: "#0b2550" };
 
 export default function AdminRootLayout({ children }: { children: React.ReactNode }) {
   return (

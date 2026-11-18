@@ -49,6 +49,25 @@ export async function sendLoginLink(_prev: ActionResult, formData: FormData): Pr
   return done(SENT);
 }
 
+/**
+ * Google sign-in (Supabase OAuth, PKCE). Anyone can pick a Google account here; the landing route
+ * (/admin/auth/confirm) lets in only emails on the admin list and removes any other account it created.
+ */
+export async function signInWithGoogle(formData: FormData) {
+  const next = String(formData.get("next") ?? "/admin");
+  const safeNext = next.startsWith("/admin") && !next.startsWith("//") ? next : "/admin";
+  const db = await supabaseSession();
+  const { data, error } = await db.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${await origin()}/admin/auth/confirm?next=${encodeURIComponent(safeNext)}`,
+      queryParams: { prompt: "select_account" },
+    },
+  });
+  if (error || !data.url) redirect("/admin/login?error=google");
+  redirect(data.url);
+}
+
 export async function signOut() {
   const db = await supabaseSession();
   await db.auth.signOut();

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AlertCircle, CheckCircle2, MailCheck, ShieldCheck } from "lucide-react";
 import { AdminForm } from "@/components/admin/admin-form";
+import { GoogleSignIn } from "@/components/admin/google-button";
 import { Input } from "@/components/admin/fields";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
 import { getAdmin } from "@/lib/admin/auth";
@@ -13,10 +14,26 @@ import { sendLoginLink } from "@/lib/admin/actions/auth";
 export const metadata: Metadata = { title: "Sign in" };
 
 const notices: Record<string, { tone: "error" | "ok"; text: string }> = {
-  link: { tone: "error", text: "That sign-in link has expired or was opened in a different browser. Ask for a new one below." },
-  denied: { tone: "error", text: "This account is not on the admin list. Ask an existing admin to add your email." },
+  link: { tone: "error", text: "That sign-in didn't complete (the link expired or was opened in a different browser). Please try again." },
+  denied: { tone: "error", text: "That account is not on the admin list, so it can't sign in. Use the Google account of an SSCFI admin." },
+  cancelled: { tone: "error", text: "Google sign-in was cancelled." },
+  google: { tone: "error", text: "Google sign-in isn't available right now. Use the email link below instead." },
   "signed-out": { tone: "ok", text: "You are signed out." },
 };
+
+/** Whether Google sign-in is switched on in Supabase (Authentication → Providers → Google). */
+async function googleEnabled() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) return false;
+  try {
+    const res = await fetch(`${url}/auth/v1/settings`, { headers: { apikey: key }, cache: "no-store" });
+    const settings = (await res.json()) as { external?: { google?: boolean } };
+    return Boolean(settings.external?.google);
+  } catch {
+    return false;
+  }
+}
 
 async function Notice({ searchParams }: { searchParams: PageProps<"/admin/login">["searchParams"] }) {
   const params = await searchParams;
@@ -24,6 +41,8 @@ async function Notice({ searchParams }: { searchParams: PageProps<"/admin/login"
   const key = typeof params.error === "string" ? params.error : params["signed-out"] ? "signed-out" : null;
   const notice = key ? notices[key] : null;
   const next = typeof params.next === "string" ? params.next : "/admin";
+  const refused = key === "denied" && typeof params.as === "string" ? params.as : null;
+  const google = await googleEnabled();
   return (
     <>
       {notice ? (
@@ -36,8 +55,26 @@ async function Notice({ searchParams }: { searchParams: PageProps<"/admin/login"
           }
         >
           {notice.tone === "error" ? <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <CheckCircle2 className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
-          {notice.text}
+          <span>
+            {refused ? (
+              <>
+                <strong className="font-bold">{refused}</strong> is not on the admin list, so it can&apos;t sign in. Use the Google account of an SSCFI admin.
+              </>
+            ) : (
+              notice.text
+            )}
+          </span>
         </p>
+      ) : null}
+      {google ? (
+        <>
+          <GoogleSignIn next={next} />
+          <div className="my-5 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.16em] text-slate-400">
+            <span className="h-px flex-1 bg-line" />
+            or email me a link
+            <span className="h-px flex-1 bg-line" />
+          </div>
+        </>
       ) : null}
       <AdminForm action={sendLoginLink} submitLabel="Email me a sign-in link" pendingLabel="Sending…" tone="gold" footerClassName="flex-col items-stretch [&>button]:h-12 [&>button]:w-full">
         <input type="hidden" name="next" value={next} />
@@ -70,7 +107,7 @@ export default function LoginPage({ searchParams }: PageProps<"/admin/login">) {
           <ul className="mt-6 space-y-3 border-t border-line pt-5 text-sm leading-relaxed text-slate-500">
             <li className="flex gap-2.5">
               <MailCheck className="mt-0.5 size-4 shrink-0 text-royal" aria-hidden="true" />
-              No password: we email a one-time link. Open it in this same browser.
+              No password needed: continue with Google, or we email a one-time link (open it in this same browser).
             </li>
             <li className="flex gap-2.5">
               <ShieldCheck className="mt-0.5 size-4 shrink-0 text-royal" aria-hidden="true" />

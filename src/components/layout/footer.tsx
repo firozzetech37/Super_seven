@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { cacheLife } from "next/cache";
-import { ArrowRight, ArrowUp, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, ArrowUp, LockKeyhole, Mail, MapPin, Phone } from "lucide-react";
 import { footerColumns, legalLinks, site } from "@/lib/site";
 import { GroundWatermark } from "./ground-watermark";
 import { SocialLinks } from "./social-links";
@@ -118,6 +118,13 @@ export function Footer() {
               <span>
                 © <CopyrightYear /> {site.shortName}
               </span>
+            </li>
+            <li className="flex items-center gap-2">
+              <span aria-hidden="true">•</span>
+              <Link href="/admin" className="inline-flex items-center gap-1.5 transition-colors hover:text-white">
+                <LockKeyhole className="size-3.5" aria-hidden="true" />
+                Staff login
+              </Link>
             </li>
           </ul>
           <a href="#top" className="group inline-flex items-center gap-2 font-bold text-white/80 transition-colors hover:text-white">

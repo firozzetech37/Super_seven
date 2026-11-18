@@ -26,7 +26,8 @@ export async function proxy(request: NextRequest) {
 
   const { data } = await supabase.auth.getClaims();
   const path = request.nextUrl.pathname;
-  const open = path === "/admin/login" || path.startsWith("/admin/auth/");
+  // /admin/me answers "not signed in" itself (the public site's admin bar asks it), so it is never redirected.
+  const open = path === "/admin/login" || path === "/admin/me" || path.startsWith("/admin/auth/");
 
   if (!data?.claims && !open) {
     const login = request.nextUrl.clone();

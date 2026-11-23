@@ -27,7 +27,7 @@ export const site = {
   url: "https://sscfi.org",
   email: "coo@sscfi.org",
   /** The general address on the Contact page and in the footer (the rest of the site still uses `email`). */
-  contactEmail: "admin.sscfi@gmail.com",
+  contactEmail: "contact@sscfi.org",
   foundedYear: 2003,
   foundedBy: "Mr. M. N. Abbasi",
   registration: "Registered society no. 521/2003-04, Societies Registration Act 1860",

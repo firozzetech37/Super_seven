@@ -35,7 +35,7 @@ const facts: SearchEntry[] = [
     title: "Player IDs",
     description: "Every approved player gets an ID like 00001-WB: a five-digit number and the state code. The public directory shows only name, ID, state and category.",
     href: "/players",
-    section: "Teams",
+    section: "Associations",
     keywords: ["player id", "id", "directory", "00001-wb", "state code", "privacy"],
   },
   {

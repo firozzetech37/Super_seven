@@ -78,7 +78,7 @@ export const archiveTeams2014 = [
   "Maharashtra",
 ];
 
-export type Official = { id: string; name: string; role: string; state: string; photo: string };
+export type Official = { id: string; name: string; role: string; state?: string; photo?: string };
 
 export const officials: Official[] = [
   { id: "anil-kumar", name: "Anil Kumar", role: "Umpire", state: "Uttarakhand", photo: "/legacy/umppire_1.jpg" },

@@ -58,10 +58,10 @@ export default function PlayersPage(props: PageProps<"/players">) {
   return (
     <>
       <PageHeader
-        eyebrow="Teams"
+        eyebrow="Associations"
         title="Player Directory"
         description="Every approved player, searchable by name or ID. The directory shows name, ID, state and category only."
-        crumbs={[{ label: "Teams", href: "/teams" }, { label: "Players" }]}
+        crumbs={[{ label: "Associations", href: "/teams" }, { label: "Players" }]}
         aside={
           <Link
             href="/register/player"

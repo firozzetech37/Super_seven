@@ -25,6 +25,7 @@ export const leadership: Person[] = [
   },
   {
     id: "secretary",
+    name: "Shrikant Sharma",
     role: "Secretary",
     group: "leadership",
     email: "secretary@sscfi.org",
@@ -36,10 +37,11 @@ export const leadership: Person[] = [
     role: "Chief Operating Officer",
     group: "leadership",
     email: "coo@sscfi.org",
+    linkedin: "https://www.linkedin.com/in/soumendu-kundu-01737510b/",
   },
 ];
 
-export type CommitteeMember = { initials: string; name: string; role: string; state?: string };
+export type CommitteeMember = { initials: string; name: string; role: string; state?: string; photo?: string };
 
 export type Committee = {
   id: string;
@@ -82,11 +84,13 @@ export type OfficeBearer = {
   id: string;
   name: string;
   designation: string;
-  photo: string;
+  photo?: string;
   phones?: string[];
   /** Addresses on the sscfi.in domain no longer resolve; they are shown as text, not links. */
   emails?: string[];
   address?: string;
+  /** As published on the 2014 site and not yet confirmed by SSCFI. */
+  archive?: boolean;
 };
 
 /** Office bearers as published on the 2014 site (office-bearer.html), pending confirmation by SSCFI. */

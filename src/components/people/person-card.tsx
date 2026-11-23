@@ -73,23 +73,17 @@ export function PersonCard({ person }: { person: Person }) {
               </a>
             </li>
           ) : null}
-          <li>
-            {person.phone ? (
+          {/* Only a real number shows; there is no "to be added" placeholder. */}
+          {person.phone ? (
+            <li>
               <a href={`tel:${person.phone}`} className={cn(row, "hover:bg-surface")}>
                 <span className={cn(tile, "bg-ball/10 text-ball group-hover/row:bg-ball group-hover/row:text-white")}>
                   <Phone className="size-4" aria-hidden="true" />
                 </span>
                 {person.phone}
               </a>
-            ) : (
-              <span className={row}>
-                <span className={cn(tile, "bg-ball/10 text-ball/70")}>
-                  <Phone className="size-4" aria-hidden="true" />
-                </span>
-                <span className="text-slate-400">Phone to be added</span>
-              </span>
-            )}
-          </li>
+            </li>
+          ) : null}
           {person.linkedin ? (
             <li>
               <a href={person.linkedin} target="_blank" rel="noopener noreferrer" className={cn(row, "hover:bg-surface")}>

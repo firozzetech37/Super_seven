@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Lightbulb, ShieldCheck, UserRound, UsersRound, type LucideIcon } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import type { Committee } from "@/lib/data/people";
+import { holding } from "@/lib/site";
 
 const icons: Record<string, LucideIcon> = { advisory: Lightbulb, committee: UsersRound, core: ShieldCheck };
 const maxSlots = 6;
@@ -16,6 +18,7 @@ export function CommitteeCard({ committee }: { committee: Committee }) {
   const shownEmpty = Math.max(0, Math.min(committee.placeholders, maxSlots - committee.members.length));
   const more = seats - committee.members.length - shownEmpty;
   const confirmed = committee.members.length;
+  const onHold = holding.aboutPeople;
 
   return (
     <Link
@@ -29,43 +32,52 @@ export function CommitteeCard({ committee }: { committee: Committee }) {
           <Icon className="size-6" aria-hidden="true" />
         </span>
         <span className="rounded-full bg-surface px-3 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500 ring-1 ring-line">
-          {confirmed ? `${confirmed} confirmed` : "List coming"}
+          {confirmed && !onHold ? `${confirmed} confirmed` : "List coming"}
         </span>
       </div>
 
       <h3 className="mt-5 font-heading text-xl font-bold text-navy transition-colors group-hover:text-royal">{committee.title}</h3>
       <p className="mt-1 text-[15px] leading-relaxed text-slate-500 md:min-h-[3.25rem]">{committee.description}</p>
 
-      <Reveal
-        as="ul"
-        stagger={60}
-        from="scale"
-        className="mt-6 flex items-center -space-x-3 group-hover:-space-x-1 [&>li]:transition-[margin] [&>li]:duration-500 [&>li]:ease-out"
-      >
-        {committee.members.map((m, i) => (
-          <li key={m.name} title={`${m.name}, ${m.role}`} className="relative" style={{ zIndex: 20 - i }}>
-            <span className="grid size-12 place-items-center rounded-full bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] text-sm font-bold text-gold shadow-[0_6px_14px_rgba(15,46,99,0.25)] ring-[3px] ring-white">
-              {m.initials}
-            </span>
-          </li>
-        ))}
-        {Array.from({ length: shownEmpty }).map((_, i) => (
-          <li key={i} aria-hidden="true" className="relative" style={{ zIndex: 20 - confirmed - i }}>
-            <span className="grid size-12 place-items-center rounded-full bg-avatar ring-[3px] ring-white">
-              <UserRound className="size-5 text-royal/35" />
-            </span>
-          </li>
-        ))}
-        {more > 0 ? (
-          <li aria-hidden="true">
-            <span className="grid size-12 place-items-center rounded-full bg-surface text-xs font-bold text-slate-500 ring-[3px] ring-white">+{more}</span>
-          </li>
-        ) : null}
-      </Reveal>
+      {onHold ? (
+        <p className="mt-6 flex items-center gap-3 rounded-2xl bg-surface px-4 py-3.5 text-[15px] font-bold text-navy ring-1 ring-line">
+          <span aria-hidden="true" className="h-1.5 w-5 shrink-0 rounded-full bg-gold" />
+          We will update this section soon.
+        </p>
+      ) : (
+        <>
+          <Reveal
+            as="ul"
+            stagger={60}
+            from="scale"
+            className="mt-6 flex items-center -space-x-3 group-hover:-space-x-1 [&>li]:transition-[margin] [&>li]:duration-500 [&>li]:ease-out"
+          >
+            {committee.members.map((m, i) => (
+              <li key={`${m.name}-${i}`} title={`${m.name}, ${m.role}`} className="relative" style={{ zIndex: 20 - i }}>
+                <span className="grid size-12 place-items-center overflow-hidden rounded-full bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] text-sm font-bold text-gold shadow-[0_6px_14px_rgba(15,46,99,0.25)] ring-[3px] ring-white">
+                  {m.photo ? <Image src={m.photo} alt="" width={48} height={48} className="size-full object-cover object-top" /> : m.initials}
+                </span>
+              </li>
+            ))}
+            {Array.from({ length: shownEmpty }).map((_, i) => (
+              <li key={i} aria-hidden="true" className="relative" style={{ zIndex: 20 - confirmed - i }}>
+                <span className="grid size-12 place-items-center rounded-full bg-avatar ring-[3px] ring-white">
+                  <UserRound className="size-5 text-royal/35" />
+                </span>
+              </li>
+            ))}
+            {more > 0 ? (
+              <li aria-hidden="true">
+                <span className="grid size-12 place-items-center rounded-full bg-surface text-xs font-bold text-slate-500 ring-[3px] ring-white">+{more}</span>
+              </li>
+            ) : null}
+          </Reveal>
 
-      <p className="mt-3 text-sm text-slate-600">
-        {confirmed ? committee.members.map((m) => `${m.name}, ${m.role}`).join(" · ") : "Members to be announced by SSCFI."}
-      </p>
+          <p className="mt-3 text-sm text-slate-600">
+            {confirmed ? committee.members.map((m) => `${m.name}, ${m.role}`).join(" · ") : "Members to be announced by SSCFI."}
+          </p>
+        </>
+      )}
 
       <div className="mt-auto flex items-center justify-between border-t border-line pt-5">
         <span className="text-sm font-bold text-royal">View {committee.title.toLowerCase()}</span>

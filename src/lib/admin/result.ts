@@ -36,7 +36,7 @@ export function dbMessage(error: { message: string; code?: string } | null | und
   if (error.code === "23514") return "One of the values is out of range (wickets 0–7, scores 0 or more).";
   if (error.code === "42501") return "Your account is not allowed to do that.";
   if (error.code === "PGRST205" || error.code === "42P01")
-    return "The media tables aren't set up yet. Run supabase/migrations/20261118000000_media.sql in the Supabase SQL editor first.";
+    return "This section's database tables aren't set up yet. Run its SQL file from supabase/migrations in the Supabase SQL editor first (see docs/ADMIN.md).";
   return fallback;
 }
 

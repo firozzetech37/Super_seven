@@ -6,20 +6,23 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { OfficialCard } from "@/components/teams/official-card";
 import { StateUnitCard } from "@/components/teams/state-unit-card";
-import { archiveTeams2014, officials, stateUnits } from "@/lib/data/teams";
+import { archiveTeams2014 } from "@/lib/data/teams";
+import { getOfficials, getStateUnits } from "@/lib/queries/content";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
+import { ComingSoon } from "@/components/layout/coming-soon";
 import { statusMeta, type Status } from "@/lib/data/locations";
+import { holding } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Teams",
-  description: "State units and their officials, district teams, and the umpires, scorers and coaches who run the matches.",
+  title: "Associations",
+  description: "State and district associations, and the umpires, scorers and coaches who run the matches.",
 };
 
 const jump = [
-  { label: "State teams", href: "#state" },
-  { label: "District teams", href: "#district" },
+  { label: "State associations", href: "#state" },
+  { label: "District associations", href: "#district" },
   { label: "Officials", href: "#officials" },
 ];
 
@@ -41,7 +44,12 @@ const darkBand = (
   </div>
 );
 
-export default function TeamsPage() {
+const numberWords = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
+const inWords = (n: number) => numberWords[n] ?? String(n);
+
+export default async function TeamsPage() {
+  // While SSCFI prepares the new state unit list, the saved one stays in the admin and is not loaded here.
+  const [stateUnits, officials] = await Promise.all([holding.stateUnits ? [] : getStateUnits(), getOfficials()]);
   const officeBearers = stateUnits.reduce((n, u) => n + u.officials.length, 0);
   const stats = [
     { value: stateUnits.length, label: "State units" },
@@ -53,9 +61,9 @@ export default function TeamsPage() {
     <>
       <PageHeader
         eyebrow="Door 1 of 7"
-        title="Teams"
-        description="State teams, district teams and the officials who run the matches."
-        crumbs={[{ label: "Teams" }]}
+        title="Associations"
+        description="State and district associations, and the officials who run the matches."
+        crumbs={[{ label: "Associations" }]}
         aside={<JumpLinks links={jump} />}
       />
 
@@ -66,13 +74,23 @@ export default function TeamsPage() {
         </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
-            eyebrow="State teams"
+            eyebrow="State associations"
             title={
-              <>
-                Nine <span className="text-royal">state units</span>
-              </>
+              holding.stateUnits ? (
+                <>
+                  State <span className="text-royal">units</span>
+                </>
+              ) : (
+                <>
+                  {inWords(stateUnits.length)} <span className="text-royal">{stateUnits.length === 1 ? "state unit" : "state units"}</span>
+                </>
+              )
             }
-            description="Presidents and secretaries as published in the SSCFI State Officials list. Changes come through the state units themselves."
+            description={
+              holding.stateUnits
+                ? undefined
+                : "Presidents and secretaries as published in the SSCFI State Officials list. Changes come through the state units themselves."
+            }
             action={
               <Link
                 href="/players"
@@ -84,22 +102,28 @@ export default function TeamsPage() {
             }
           />
 
-          <Reveal as="dl" stagger={100} className="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
-            {stats.map((s) => (
-              <div key={s.label} className="flex flex-col-reverse rounded-2xl bg-surface px-3 py-4 text-center ring-1 ring-line sm:px-6 sm:py-5 sm:text-left">
-                <dt className="mt-1 text-[10px] font-bold uppercase leading-tight tracking-[0.14em] text-slate-500 sm:text-[11px] sm:tracking-[0.18em]">{s.label}</dt>
-                <dd className="font-heading text-3xl font-bold tabular-nums text-navy sm:text-4xl">
-                  <CountUp value={s.value} />
-                </dd>
-              </div>
-            ))}
-          </Reveal>
+          {holding.stateUnits ? (
+            <ComingSoon variant="inline" as="h3" message="We will update the State Units information soon." className="mt-4" />
+          ) : (
+            <>
+              <Reveal as="dl" stagger={100} className="mt-10 grid grid-cols-3 gap-3 sm:gap-5">
+                {stats.map((s) => (
+                  <div key={s.label} className="flex flex-col-reverse rounded-2xl bg-surface px-3 py-4 text-center ring-1 ring-line sm:px-6 sm:py-5 sm:text-left">
+                    <dt className="mt-1 text-[10px] font-bold uppercase leading-tight tracking-[0.14em] text-slate-500 sm:text-[11px] sm:tracking-[0.18em]">{s.label}</dt>
+                    <dd className="font-heading text-3xl font-bold tabular-nums text-navy sm:text-4xl">
+                      <CountUp value={s.value} />
+                    </dd>
+                  </div>
+                ))}
+              </Reveal>
 
-          <Reveal stagger className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {stateUnits.map((u) => (
-              <StateUnitCard key={u.id} unit={u} />
-            ))}
-          </Reveal>
+              <Reveal stagger className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {stateUnits.map((u) => (
+                  <StateUnitCard key={u.id} unit={u} />
+                ))}
+              </Reveal>
+            </>
+          )}
 
           <Reveal className="relative mt-16 overflow-hidden rounded-[2rem] bg-surface p-6 ring-1 ring-line sm:p-10">
             <span
@@ -148,7 +172,7 @@ export default function TeamsPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading
             tone="dark"
-            eyebrow="District teams"
+            eyebrow="District associations"
             title="Teams registered through district associations"
             description="District teams come onto this page the day their district association is approved and its first team is registered."
           />
@@ -234,7 +258,11 @@ export default function TeamsPage() {
           <SectionHeading
             eyebrow="Officials"
             title="Umpires, scorers and coaches"
-            description="The officials who run Super Seven matches. The federation is building its panel; two of its umpires are below."
+            description={
+              officials.length
+                ? `The officials who run Super Seven matches. The federation is building its panel; ${officials.length === 1 ? "one official is" : `${inWords(officials.length).toLowerCase()} of them are`} below.`
+                : "The officials who run Super Seven matches. The federation is building its panel."
+            }
           />
           <Reveal stagger={110} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {officials.map((o) => (

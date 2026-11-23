@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { GroundWatermark } from "@/components/layout/ground-watermark";
-import { cn } from "@/lib/utils";
+import { cn, initialsOf } from "@/lib/utils";
 import type { OfficeBearer } from "@/lib/data/people";
 
 const row = "group/row -mx-2 flex items-center gap-3 rounded-xl px-2 py-1.5 transition-colors";
@@ -16,14 +16,20 @@ function Portrait({ person, size }: { person: OfficeBearer; size: "lg" | "sm" })
         aria-hidden="true"
         className="absolute -inset-[6px] rounded-full bg-[conic-gradient(from_0deg,#d9ae56,#f6dfa2,#c99b43,#1c4fa0,#d9ae56)] shadow-[0_10px_24px_rgba(15,46,99,0.25)] motion-safe:group-hover:animate-[spin_4s_linear_infinite]"
       />
-      <span className="absolute inset-0 overflow-hidden rounded-full bg-avatar ring-4 ring-white">
-        <Image
-          src={person.photo}
-          alt={`${person.name}, ${person.designation}`}
-          width={px}
-          height={px}
-          className="size-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
-        />
+      <span className="absolute inset-0 grid place-items-center overflow-hidden rounded-full bg-avatar ring-4 ring-white">
+        {person.photo ? (
+          <Image
+            src={person.photo}
+            alt={`${person.name}, ${person.designation}`}
+            width={px}
+            height={px}
+            className="size-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110"
+          />
+        ) : (
+          <span aria-hidden="true" className={cn("grid size-full place-items-center bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] font-heading font-bold tracking-wide text-gold", size === "lg" ? "text-4xl" : "text-2xl")}>
+            {initialsOf(person.name)}
+          </span>
+        )}
       </span>
     </div>
   );

@@ -8,7 +8,7 @@ import { EnquiryForm } from "@/components/contact/enquiry-form";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { PersonCard } from "@/components/people/person-card";
-import { leadership } from "@/lib/data/people";
+import { getLeadership } from "@/lib/queries/content";
 import { enquiryTypes, type EnquiryType } from "@/lib/forms";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/motion/reveal";
@@ -24,7 +24,8 @@ const jumps = [
   { href: "#corporate", label: "Corporate bookings", text: "Fun Fridays and corporate days", icon: Briefcase },
 ];
 
-export default function ContactPage(props: PageProps<"/contact">) {
+export default async function ContactPage(props: PageProps<"/contact">) {
+  const leadership = await getLeadership();
   return (
     <>
       <PageHeader
@@ -34,7 +35,7 @@ export default function ContactPage(props: PageProps<"/contact">) {
         crumbs={[{ label: "Contact" }]}
         aside={
           <a
-            href={`mailto:${site.email}`}
+            href={`mailto:${site.contactEmail}`}
             className="group inline-flex items-center gap-3 rounded-2xl bg-white/10 py-2.5 pl-2.5 pr-5 text-white ring-1 ring-white/25 backdrop-blur transition hover:bg-white/15 hover:ring-gold/60"
           >
             <span className="grid size-10 place-items-center rounded-xl bg-gold text-navy transition duration-300 group-hover:-rotate-6">
@@ -42,7 +43,7 @@ export default function ContactPage(props: PageProps<"/contact">) {
             </span>
             <span>
               <span className="block text-[10px] font-bold uppercase tracking-[0.2em] text-gold">Write to us</span>
-              <span className="block font-bold">{site.email}</span>
+              <span className="block font-bold">{site.contactEmail}</span>
             </span>
           </a>
         }

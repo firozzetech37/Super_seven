@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,8 +10,20 @@ import { isNavActive } from "@/lib/nav";
 import { navigation, registerCta, site, type NavItem } from "@/lib/site";
 import { usePastHero } from "./use-past-hero";
 
-/** Re-mounts on every route change so any open dropdown closes without an effect. */
+/**
+ * The URL is only known at request time on pages whose address wasn't built ahead (a new tournament
+ * or news story), so the URL read sits in a boundary; meanwhile the bar shows with nothing highlighted.
+ */
 export function DesktopNav() {
+  return (
+    <Suspense fallback={<MenuBar pathname="" />}>
+      <RoutedMenuBar />
+    </Suspense>
+  );
+}
+
+/** Re-mounts on every route change so any open dropdown closes without an effect. */
+function RoutedMenuBar() {
   const pathname = usePathname();
   return <MenuBar key={pathname} pathname={pathname} />;
 }
@@ -21,7 +33,7 @@ function MenuBar({ pathname }: { pathname: string }) {
   const [stuck, setStuck] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const barRef = useRef<HTMLDivElement>(null);
-  const showRegister = usePastHero();
+  const showRegister = usePastHero(pathname);
 
   // The compact brand appears once the big header has scrolled out of view.
   useEffect(() => {

@@ -41,10 +41,10 @@ export function ContactInfo() {
             <div className="min-w-0 flex-1">
               <p className="font-bold">Email</p>
               <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                <a href={`mailto:${site.email}`} className="break-all text-white/85 underline decoration-gold/50 underline-offset-4 hover:text-white hover:decoration-gold">
-                  {site.email}
+                <a href={`mailto:${site.contactEmail}`} className="break-all text-white/85 underline decoration-gold/50 underline-offset-4 hover:text-white hover:decoration-gold">
+                  {site.contactEmail}
                 </a>
-                <CopyEmail email={site.email} />
+                <CopyEmail email={site.contactEmail} />
               </div>
             </div>
           </li>

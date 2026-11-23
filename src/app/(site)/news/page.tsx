@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { NewsList } from "@/components/news/news-list";
-import { newsItems } from "@/lib/data/news";
+import { getNews } from "@/lib/queries/content";
 
 export const metadata: Metadata = {
   title: "News & Updates",
@@ -19,7 +19,8 @@ const perks = [
   { icon: Megaphone, label: "Announcements" },
 ];
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const items = await getNews();
   return (
     <>
       <PageHeader
@@ -43,7 +44,7 @@ export default function NewsPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <SectionHeading eyebrow="Latest" title="From the federation" />
           <div className="mt-8">
-            <NewsList items={newsItems} />
+            <NewsList items={items} />
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, MessageCircle } from "lucide-react";
@@ -9,11 +10,26 @@ import { usePastHero } from "./use-past-hero";
 
 const hiddenOn = ["/register", "/contact"];
 
-/** Sticky Register bar on phones and tablets; hidden on the pages it links to, and over the home hero. */
+/**
+ * Sticky Register bar on phones and tablets; hidden on the pages it links to, and over the home hero.
+ * The URL read sits in a boundary (see DesktopNav); meanwhile it shows as on any inner page.
+ */
 export function MobileCta() {
+  return (
+    <Suspense fallback={<CtaBar pathname="" />}>
+      <RoutedCta />
+    </Suspense>
+  );
+}
+
+function RoutedCta() {
   const pathname = usePathname();
-  const show = usePastHero();
   if (hiddenOn.some((p) => pathname.startsWith(p))) return null;
+  return <CtaBar pathname={pathname} />;
+}
+
+function CtaBar({ pathname }: { pathname: string }) {
+  const show = usePastHero(pathname);
   return (
     <>
       <div aria-hidden="true" className="h-[4.5rem] lg:hidden" />

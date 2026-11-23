@@ -7,6 +7,8 @@ export type NewsItem = {
   /** ISO date; omitted when SSCFI has not confirmed it yet. */
   date?: string;
   summary: string;
+  /** Full story, shown on /news/[id]; paragraphs are separated by a blank line. */
+  body?: string;
   href?: string;
   cover?: string;
   coverAlt?: string;

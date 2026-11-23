@@ -39,7 +39,7 @@ export function DocumentCard({ doc }: { doc: LegacyDocument }) {
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-5 -right-1 font-heading text-[5.5rem] font-bold leading-none text-navy/[0.045] transition duration-500 group-hover:-translate-y-1 group-hover:text-gold/20"
       >
-        {doc.year ?? "EN"}
+        {doc.year ?? "PDF"}
       </span>
       <span aria-hidden="true" className="absolute inset-x-6 top-0 h-[3px] origin-left scale-x-0 rounded-b-full bg-gradient-to-r from-gold to-gold-deep transition-transform duration-500 group-hover:scale-x-100" />
       <div className="relative flex items-start justify-between gap-3">
@@ -49,10 +49,12 @@ export function DocumentCard({ doc }: { doc: LegacyDocument }) {
       <h4 className="relative mt-5 font-heading text-lg font-bold leading-snug text-navy transition-colors group-hover:text-royal">{doc.title}</h4>
       <p className="relative mt-2 text-[15px] leading-relaxed text-slate-500">{doc.description}</p>
       <p className="relative mt-auto flex flex-wrap items-center gap-2 pt-5 text-[11px] font-bold uppercase tracking-[0.14em] text-slate-500">
-        <span className="rounded-full bg-surface px-2.5 py-1 ring-1 ring-line">{doc.year ?? doc.edition}</span>
-        <span className="rounded-full bg-surface px-2.5 py-1 ring-1 ring-line">
-          {doc.pages} {doc.pages === 1 ? "page" : "pages"}
-        </span>
+        {doc.year ?? doc.edition ? <span className="rounded-full bg-surface px-2.5 py-1 ring-1 ring-line">{doc.year ?? doc.edition}</span> : null}
+        {doc.pages ? (
+          <span className="rounded-full bg-surface px-2.5 py-1 ring-1 ring-line">
+            {doc.pages} {doc.pages === 1 ? "page" : "pages"}
+          </span>
+        ) : null}
       </p>
       <span className="relative mt-4 flex items-center justify-between border-t border-line pt-4 text-sm font-bold text-royal">
         <span>Open PDF</span>
@@ -85,8 +87,12 @@ export function FeaturedDocument({ doc, readHref }: { doc: LegacyDocument; readH
       <h4 className="mt-2 max-w-xl font-heading text-2xl font-bold leading-tight sm:text-[1.75rem]">{doc.title}</h4>
       <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75">{doc.description}</p>
       <p className="mt-5 flex flex-wrap gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white/80">
-        <span className="rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15">{doc.year ?? doc.edition}</span>
-        <span className="rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15">{doc.pages} pages</span>
+        {doc.year ?? doc.edition ? <span className="rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15">{doc.year ?? doc.edition}</span> : null}
+        {doc.pages ? (
+          <span className="rounded-full bg-white/10 px-2.5 py-1 ring-1 ring-white/15">
+            {doc.pages} {doc.pages === 1 ? "page" : "pages"}
+          </span>
+        ) : null}
       </p>
       <div className="mt-auto flex flex-col gap-3 pt-7 sm:flex-row sm:flex-wrap">
         <a

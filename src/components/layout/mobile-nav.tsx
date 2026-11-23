@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ChevronDown, Menu, Search, X } from "lucide-react";
@@ -9,8 +9,17 @@ import { isNavActive } from "@/lib/nav";
 import { navigation, registerCta, site } from "@/lib/site";
 import { SocialLinks } from "./social-links";
 
-/** Re-mounts the panel on every route change so the menu closes without an effect. */
+/** The URL read sits in a boundary (see DesktopNav); meanwhile the menu works with nothing highlighted. */
 export function MobileNav({ className }: { className?: string }) {
+  return (
+    <Suspense fallback={<MobileNavPanel className={className} pathname="" />}>
+      <RoutedMobileNav className={className} />
+    </Suspense>
+  );
+}
+
+/** Re-mounts the panel on every route change so the menu closes without an effect. */
+function RoutedMobileNav({ className }: { className?: string }) {
   const pathname = usePathname();
   return <MobileNavPanel key={pathname} className={className} pathname={pathname} />;
 }

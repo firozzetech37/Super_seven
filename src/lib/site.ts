@@ -10,11 +10,24 @@ export type Door = {
 
 export type SocialId = "facebook" | "instagram" | "linkedin" | "youtube";
 
+/**
+ * Temporary holding messages while SSCFI prepares fresh lists. The saved lists stay in the admin;
+ * set a flag to false to show them on the site again.
+ */
+export const holding = {
+  /** Advisory Committee, Office Bearers, Committee Members and Core Members pages, and the committee boxes on the home page. */
+  aboutPeople: true,
+  /** State unit cards and counts on the Associations page (/teams). */
+  stateUnits: true,
+};
+
 export const site = {
   name: "Super Seven Cricket Federation of India",
   shortName: "SSCFI",
   url: "https://sscfi.org",
   email: "coo@sscfi.org",
+  /** The general address on the Contact page and in the footer (the rest of the site still uses `email`). */
+  contactEmail: "admin.sscfi@gmail.com",
   foundedYear: 2003,
   foundedBy: "Mr. M. N. Abbasi",
   registration: "Registered society no. 521/2003-04, Societies Registration Act 1860",
@@ -40,9 +53,9 @@ export const site = {
 export const doors: Door[] = [
   {
     number: 1,
-    label: "Teams",
+    label: "Associations",
     href: "/teams",
-    items: ["State teams", "District teams", "Officials (umpires, coaches)"],
+    items: ["State associations", "District associations", "Officials (umpires, coaches)"],
     x: 0,
     y: -150,
   },
@@ -129,7 +142,7 @@ export const footerColumns = [
   {
     title: "Quick links",
     links: [
-      { label: "Teams", href: "/teams" },
+      { label: "Associations", href: "/teams" },
       { label: "Fixtures & Results", href: "/fixtures" },
       { label: "Rules", href: "/rules" },
       { label: "Register", href: "/register" },
@@ -161,13 +174,13 @@ export type NavItem = { label: string; href: string; children?: NavChild[] };
 export const navigation: NavItem[] = [
   { label: "Home", href: "/" },
   {
-    label: "Teams",
+    label: "Associations",
     href: "/teams",
     children: [
-      { label: "State teams", href: "/teams#state", description: "State associations and their officials" },
-      { label: "District teams", href: "/teams#district", description: "Teams registered through district associations" },
+      { label: "State Associations", href: "/teams#state", description: "Recognized state associations and their office‑bearers" },
+      { label: "District Associations", href: "/teams#district", description: "District-level affiliated associations" },
       { label: "Officials", href: "/teams#officials", description: "Umpires, scorers and coaches" },
-      { label: "Player directory", href: "/players", description: "Registered players by state and ID" },
+      { label: "Player Directory", href: "/players", description: "Registered players by state and ID" },
     ],
   },
   {
@@ -177,7 +190,6 @@ export const navigation: NavItem[] = [
       { label: "Upcoming fixtures", href: "/fixtures#upcoming", description: "Next matches by tournament and city" },
       { label: "Results", href: "/fixtures#results", description: "Scores from every stage" },
       { label: "League tables", href: "/fixtures#tables", description: "Standings by group" },
-      { label: "NCL S7 Amroha 2014", href: "/fixtures#archive", description: "Archive of the National Cricket League Super 7" },
     ],
   },
   {

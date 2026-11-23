@@ -1,11 +1,15 @@
+import Image from "next/image";
 import { BadgeCheck, Camera, Inbox, MapPin, UserRound, Type } from "lucide-react";
+import { MembersBadge, PeopleHoldingPage } from "@/components/about/people-holding";
 import { PeopleNav } from "@/components/about/people-nav";
 import { UpdateCta } from "@/components/about/update-cta";
 import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { CommitteeCard } from "@/components/people/committee-card";
-import { committees, type CommitteeMember } from "@/lib/data/people";
+import { committees as committeePages, type CommitteeMember } from "@/lib/data/people";
+import { getCommittees } from "@/lib/queries/content";
+import { holding } from "@/lib/site";
 
 const fields = [
   { icon: Camera, label: "Photo" },
@@ -26,8 +30,8 @@ function MemberCard({ member }: { member: CommitteeMember }) {
           aria-hidden="true"
           className="absolute -inset-[6px] rounded-full bg-[conic-gradient(from_0deg,#d9ae56,#f6dfa2,#c99b43,#1c4fa0,#d9ae56)] shadow-[0_10px_24px_rgba(15,46,99,0.25)] motion-safe:group-hover:animate-[spin_4s_linear_infinite]"
         />
-        <span aria-hidden="true" className="absolute inset-0 grid place-items-center rounded-full bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] font-heading text-3xl font-bold tracking-wide text-gold ring-4 ring-white">
-          {member.initials}
+        <span aria-hidden="true" className="absolute inset-0 grid place-items-center overflow-hidden rounded-full bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] font-heading text-3xl font-bold tracking-wide text-gold ring-4 ring-white">
+          {member.photo ? <Image src={member.photo} alt="" width={96} height={96} className="size-full object-cover object-top" /> : member.initials}
         </span>
       </div>
       <h3 className="mt-5 font-heading text-xl font-bold leading-tight text-navy">{member.name}</h3>
@@ -55,8 +59,14 @@ function EmptySeat() {
   );
 }
 
-/** Shared page for the three committee lists until SSCFI supplies names and photos. */
-export function CommitteePage({ id, title, description }: { id: string; title: string; description: string }) {
+/** Shared page for the three committee lists; members are managed in the admin (People). */
+export async function CommitteePage({ id, title, description }: { id: string; title: string; description: string }) {
+  if (holding.aboutPeople) {
+    const current = committeePages.find((c) => c.id === id)?.href ?? "/about";
+    return <PeopleHoldingPage title={title} description={description} current={current} />;
+  }
+
+  const committees = await getCommittees();
   const committee = committees.find((c) => c.id === id);
   const members = committee?.members ?? [];
   const seats = committee?.placeholders ?? 0;
@@ -70,26 +80,7 @@ export function CommitteePage({ id, title, description }: { id: string; title: s
         title={title}
         description={description}
         crumbs={[{ label: "About", href: "/about" }, { label: title }]}
-        aside={
-          <div className="flex items-center gap-4 rounded-3xl bg-white/10 p-4 pr-6 ring-1 ring-white/15 backdrop-blur">
-            <span aria-hidden="true" className="flex -space-x-3">
-              {members.slice(0, 3).map((m) => (
-                <span key={m.name} className="grid size-12 place-items-center rounded-full bg-[linear-gradient(150deg,#1c4fa0,#0f2e63)] text-sm font-bold text-gold ring-[3px] ring-gold">
-                  {m.initials}
-                </span>
-              ))}
-              {Array.from({ length: Math.max(0, 3 - members.length) }).map((_, i) => (
-                <span key={i} className="grid size-12 place-items-center rounded-full bg-white/15 ring-[3px] ring-navy">
-                  <UserRound className="size-5 text-white/60" />
-                </span>
-              ))}
-            </span>
-            <span>
-              <span className="block font-heading text-2xl font-bold leading-none">{members.length ? `${members.length} confirmed` : "List coming"}</span>
-              <span className="mt-1 block text-[11px] font-bold uppercase tracking-[0.18em] text-gold">Full list requested</span>
-            </span>
-          </div>
-        }
+        aside={<MembersBadge members={members} />}
       />
 
       <PeopleNav current={href} />
@@ -105,8 +96,8 @@ export function CommitteePage({ id, title, description }: { id: string; title: s
           }
         />
         <Reveal stagger={80} as="ul" className="mt-10 grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-4">
-          {members.map((m) => (
-            <li key={m.name}>
+          {members.map((m, i) => (
+            <li key={`${m.name}-${i}`}>
               <MemberCard member={m} />
             </li>
           ))}

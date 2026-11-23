@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/reveal";
 const cards = [
   {
     title: "Leadership",
-    body: "President Firozze Kamaal Abbasi, the Secretary and the COO, with direct contact.",
+    body: "President Firozze Kamaal Abbasi, Secretary Shrikant Sharma and the COO, with direct contact.",
     href: "#people",
     icon: Award,
   },

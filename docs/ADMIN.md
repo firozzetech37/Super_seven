@@ -55,6 +55,16 @@ SSCFI staff run the site from `/admin`: tournaments, fixtures and results, playe
 - New albums start hidden; Publish shows them. The first photo is the cover; captions are also the alt text.
 - Free Supabase plan: 1 GB of storage, roughly 3,000–5,000 shrunk photos.
 
+## Website content (News, People, State units & officials, Documents)
+
+- Needs `supabase/migrations/20261119000000_content.sql` run once in the SQL editor: tables `news_posts`, `people`, `state_units`, `match_officials`, `documents`, the `reorder_content()` helper, row security (public reads published rows, admins do everything) and a public `documents` storage bucket for PDFs (50 MB each). It seeds what the site showed before (3 news stories, 14 people, 9 state units, 2 officials, 10 documents; their files stay in `public/`). Regenerate it with `node scripts/content/build-content-sql.mjs` if `src/lib/data/{news,people,teams,documents}.ts` change before it is applied. Until it runs, the site shows those files and each admin page shows the setup steps.
+- Public pages read `src/lib/queries/content.ts` (cache tags `news`, `people`, `state-units`, `documents`); every admin save refreshes them at once.
+- **News** (`/admin/news`): new stories start hidden. A story with a full text gets its own page at `/news/<slug>`; without one the card follows the optional link. Featured stories show large at the top. Cover photos go to the `media` bucket.
+- **People** (`/admin/people`): Leadership (About, Contact, home page), Office bearers, and the Advisory, Committee and Core member lists. Each committee page shows empty "Name to be added" seats until it has 8 members. "From the 2014 records" keeps the 2014 notice on the Office Bearers page.
+- **State units & officials** (`/admin/state-units`): the state cards (code, up to 4 office bearers) and the match officials on the Teams page.
+- **Documents** (`/admin/documents`): PDFs upload from the browser straight to the `documents` bucket; the page count is read from the PDF when possible. "Replace PDF" swaps the file (e.g. a new edition) and deletes the old upload. Files that shipped with the site (`public/documents`) are never deleted from the repo; removing them here only hides the card.
+- Lists with arrows (people, state units, officials, documents) are shown on the website in that order.
+
 ## Registrations
 
 - Approving a player calls `issue_player_id()`, which issues the next ID for their state (`00001-WB`) atomically.

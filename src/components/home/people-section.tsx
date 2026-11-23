@@ -5,9 +5,10 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { Reveal } from "@/components/motion/reveal";
 import { CommitteeCard } from "@/components/people/committee-card";
 import { PersonCard } from "@/components/people/person-card";
-import { committees, leadership } from "@/lib/data/people";
+import { getCommittees, getLeadership } from "@/lib/queries/content";
 
-export function PeopleSection() {
+export async function PeopleSection() {
+  const [leadership, committees] = await Promise.all([getLeadership(), getCommittees()]);
   return (
     <section id="people" className="relative isolate scroll-mt-28 overflow-hidden border-t border-line bg-surface py-16 lg:py-24">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">

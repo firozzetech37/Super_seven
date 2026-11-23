@@ -81,8 +81,8 @@ export function Footer() {
             <ul className="mt-5 space-y-3 text-[15px] text-white/80">
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 size-4 shrink-0 text-gold" aria-hidden="true" />
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-white">
-                  {site.email}
+                <a href={`mailto:${site.contactEmail}`} className="break-all transition-colors hover:text-white">
+                  {site.contactEmail}
                 </a>
               </li>
               <li className="flex items-start gap-3">

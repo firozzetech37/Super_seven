@@ -1,7 +1,6 @@
 "use client";
 
-import { createContext, useActionState, useContext, useEffect, useRef } from "react";
-import { useFormStatus } from "react-dom";
+import { createContext, startTransition, useActionState, useContext, useEffect, useRef } from "react";
 import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 import { buttonBase, buttonTones, type ButtonTone } from "@/components/admin/styles";
@@ -13,9 +12,10 @@ type Action = (prev: ActionResult, formData: FormData) => Promise<ActionResult>;
 /** Field errors from the last submission, read by the admin field components. */
 const FormErrors = createContext<Record<string, string>>({});
 export const useFieldError = (name: string) => useContext(FormErrors)[name];
+/** For forms that don't use AdminForm (e.g. uploads): passes field errors to the admin fields inside. */
+export const FieldErrors = FormErrors;
 
-function Submit({ children, tone, pendingLabel, small }: { children: React.ReactNode; tone: ButtonTone; pendingLabel: string; small?: boolean }) {
-  const { pending } = useFormStatus();
+function Submit({ children, tone, pendingLabel, small, pending }: { children: React.ReactNode; tone: ButtonTone; pendingLabel: string; small?: boolean; pending: boolean }) {
   return (
     <button type="submit" disabled={pending} className={cn(buttonBase, buttonTones[tone], small && "h-9 px-3 text-[13px]")}>
       {pending ? <LoaderCircle className="size-4 animate-spin" aria-hidden="true" /> : null}
@@ -57,7 +57,7 @@ export function AdminForm({
 }) {
   // Toast straight from the action's reply: when an approval moves an item out of the list, this form
   // unmounts in the same update, so an effect would never get to show the message.
-  const [state, formAction] = useActionState(async (prev: ActionResult, formData: FormData) => {
+  const [state, formAction, pending] = useActionState(async (prev: ActionResult, formData: FormData) => {
     const result = await action(prev, formData);
     if (result.message) {
       if (result.ok) toast.success(result.message);
@@ -73,10 +73,26 @@ export function AdminForm({
 
   return (
     <FormErrors value={state.errors ?? {}}>
-      <form ref={ref} action={formAction} className={className}>
+      {/*
+        Submitted from onSubmit: when React runs a form action itself it resets the form afterwards, which would wipe
+        what the admin typed whenever a save is refused (a bad link, a missing name). Preventing the default here
+        makes React skip its own run (and the reset); `action` stays so a click before the page has loaded does
+        nothing instead of reloading it. `resetOnSuccess` forms (the "add" forms) are cleared by the effect above.
+      */}
+      <form
+        ref={ref}
+        action={formAction}
+        className={className}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (pending) return;
+          const data = new FormData(e.currentTarget);
+          startTransition(() => formAction(data));
+        }}
+      >
         {children}
         <div className={cn("flex flex-wrap items-center gap-x-3 gap-y-2", children ? "mt-5" : "", footerClassName)}>
-          <Submit tone={tone} pendingLabel={pendingLabel} small={small}>
+          <Submit tone={tone} pendingLabel={pendingLabel} small={small} pending={pending}>
             {submitLabel}
           </Submit>
           {footer}

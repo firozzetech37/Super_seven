@@ -1,52 +1,16 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { AlertCircle, CheckCircle2, ImagePlus, LoaderCircle, UploadCloud } from "lucide-react";
 import { toast } from "sonner";
 import { buttonBase, buttonTones } from "@/components/admin/styles";
+import { bucket, shrink, type Prepared } from "@/components/admin/upload-utils";
 import { prepareUploads, savePhotos, savePressUploads } from "@/lib/admin/actions/media";
 import { cn } from "@/lib/utils";
 
-const accepted = ["image/jpeg", "image/png", "image/webp"];
 const MAX_FILES = 40;
 
-let client: SupabaseClient | undefined;
-function storage() {
-  client ??= createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-  return client.storage.from("media");
-}
-
 type Item = { key: string; file: File; preview: string; state: "waiting" | "working" | "done" | "error"; error?: string };
-type Prepared = { blob: Blob; width: number; height: number; type: string };
-
-/** Fits the photo inside `max` px (EXIF rotation applied), re-encoded as WebP (JPEG where WebP can't be written). */
-async function shrink(file: File, max: number): Promise<Prepared> {
-  const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-  const scale = Math.min(1, max / Math.max(bitmap.width, bitmap.height));
-  const width = Math.round(bitmap.width * scale);
-  const height = Math.round(bitmap.height * scale);
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("This browser can't process images.");
-  ctx.imageSmoothingQuality = "high";
-  ctx.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
-  const encode = (type: string, quality: number) => new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
-  let blob = await encode("image/webp", 0.82);
-  if (!blob || blob.type !== "image/webp") blob = await encode("image/jpeg", 0.85);
-  // Release the pixel buffer now rather than waiting for garbage collection (matters on phones).
-  canvas.width = 0;
-  canvas.height = 0;
-  if (!blob) throw new Error("Couldn't process this image.");
-  // A small original that needed no resizing is kept as it is when re-encoding wouldn't make it smaller.
-  if (scale === 1 && file.size <= blob.size && accepted.includes(file.type)) return { blob: file, width, height, type: file.type };
-  return { blob, width, height, type: blob.type };
-}
 
 /** Runs `task` over the list with at most `limit` at a time. */
 async function pool<T>(list: T[], limit: number, task: (item: T, index: number) => Promise<void>) {
@@ -119,7 +83,7 @@ export function MediaUploader(props: { mode: "album"; albumId: string } | { mode
       const savedKeys: string[] = [];
       await pool(ready, 3, async ({ item, prep }, i) => {
         const { path, token } = links.targets![i];
-        const { error } = await storage().uploadToSignedUrl(path, token, prep.blob, { contentType: prep.type, cacheControl: "31536000" });
+        const { error } = await bucket("media").uploadToSignedUrl(path, token, prep.blob, { contentType: prep.type, cacheControl: "31536000" });
         if (error) patch(item.key, { state: "error", error: "Upload failed" });
         else {
           saved.push({ path, width: prep.width, height: prep.height, name: item.file.name });

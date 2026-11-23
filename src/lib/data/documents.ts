@@ -8,11 +8,15 @@ export type LegacyDocument = {
   year?: number;
   /** Shown instead of the year when there is none. */
   edition?: string;
-  pages: number;
+  pages?: number;
   category: DocCategory;
   description: string;
   /** Path for documents outside the 2014 archive; 2014 ones resolve from legacyDocumentBase + file. */
   href?: string;
+  /** Shown as a wide navy card at the top of its category. */
+  featured?: boolean;
+  /** "Read online" link on the featured card. */
+  readHref?: string;
 };
 
 /** The 2014 PDFs, copied from the old site and served from public/documents/2014 under their original file names. */
@@ -32,6 +36,8 @@ export const documents: LegacyDocument[] = [
     title: "Rules of Super Seven Cricket: English Pocket Rulebook",
     file: "sscfi-rulebook-english.pdf",
     href: "/documents/sscfi-rulebook-english.pdf",
+    featured: true,
+    readHref: "/rules/rulebook?lang=english#reader",
     edition: "Official text",
     pages: 83,
     category: "rules",
@@ -42,6 +48,8 @@ export const documents: LegacyDocument[] = [
     title: "Super Seven Cricket Multilingual Rulebook",
     file: "sscfi-multilingual-rulebook.pdf",
     href: "/documents/sscfi-multilingual-rulebook.pdf",
+    featured: true,
+    readHref: "/rules/rulebook?lang=hindi#reader",
     year: 2026,
     pages: 173,
     category: "rules",

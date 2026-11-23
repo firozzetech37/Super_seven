@@ -2,7 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarRange, Images, Inbox, LayoutDashboard, Map, Mail, Newspaper, ShieldCheck, Trophy, UserRound, Users, type LucideIcon } from "lucide-react";
+import {
+  CalendarRange,
+  FileText,
+  Flag,
+  Images,
+  Inbox,
+  LayoutDashboard,
+  Map,
+  Mail,
+  Megaphone,
+  Newspaper,
+  ShieldCheck,
+  Trophy,
+  UserRound,
+  Users,
+  UsersRound,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type NavCounts = Partial<Record<"players" | "teams" | "associations" | "enquiries" | "results", number>>;
@@ -18,6 +35,15 @@ const groups: { title: string; items: NavItem[] }[] = [
       { href: "/admin/players", label: "Players", icon: UserRound, count: "players" },
       { href: "/admin/teams", label: "Teams", icon: Users, count: "teams" },
       { href: "/admin/associations", label: "District associations", icon: Trophy, count: "associations" },
+    ],
+  },
+  {
+    title: "Website",
+    items: [
+      { href: "/admin/news", label: "News", icon: Megaphone },
+      { href: "/admin/people", label: "People", icon: UsersRound },
+      { href: "/admin/state-units", label: "State units & officials", icon: Flag },
+      { href: "/admin/documents", label: "Documents", icon: FileText },
     ],
   },
   {

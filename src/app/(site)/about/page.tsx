@@ -10,7 +10,7 @@ import { SectionHeading } from "@/components/layout/section-heading";
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { PersonCard } from "@/components/people/person-card";
-import { leadership } from "@/lib/data/people";
+import { getLeadership } from "@/lib/queries/content";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -40,7 +40,8 @@ const headerStats: { v: number; l: string; plain?: boolean }[] = [
   { v: 7, l: "Overs" },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const leadership = await getLeadership();
   return (
     <>
       <PageHeader

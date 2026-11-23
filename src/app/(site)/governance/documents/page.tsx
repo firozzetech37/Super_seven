@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
-import { documentCategories, documents, type DocCategory } from "@/lib/data/documents";
+import { documentCategories, type DocCategory } from "@/lib/data/documents";
+import { getDocuments } from "@/lib/queries/content";
 
 export const metadata: Metadata = {
   title: "Documents",
@@ -15,12 +16,9 @@ export const metadata: Metadata = {
 
 const order: DocCategory[] = ["rules", "forms", "officials", "fixtures", "results"];
 const icons: Record<DocCategory, LucideIcon> = { rules: BookOpen, forms: ClipboardList, officials: Users, fixtures: CalendarDays, results: Trophy };
-const groups = order.map((c) => ({ id: c, docs: documents.filter((d) => d.category === c) })).filter((g) => g.docs.length);
-
-/** Documents hosted on this site get the wide navy card; the multilingual rulebook also reads online. */
-const readOnline: Record<string, string> = { "rulebook-english": "/rules/rulebook?lang=english#reader", "rulebook-multilingual": "/rules/rulebook?lang=hindi#reader" };
-
-export default function DocumentsPage() {
+export default async function DocumentsPage() {
+  const documents = await getDocuments();
+  const groups = order.map((c) => ({ id: c, docs: documents.filter((d) => d.category === c) })).filter((g) => g.docs.length);
   return (
     <>
       <PageHeader
@@ -80,8 +78,9 @@ export default function DocumentsPage() {
         <div className="mt-6 space-y-14">
           {groups.map(({ id, docs }) => {
             const Icon = icons[id];
-            const featured = docs.filter((d) => d.href);
-            const rest = docs.filter((d) => !d.href);
+            // Featured documents get the wide navy card (with "Read online" when there is a reader page).
+            const featured = docs.filter((d) => d.featured);
+            const rest = docs.filter((d) => !d.featured);
             return (
               <section key={id} id={`docs-${id}`} aria-labelledby={`docs-${id}-title`} className="scroll-mt-28 pt-8">
                 <Reveal className="flex items-center gap-4">
@@ -100,7 +99,7 @@ export default function DocumentsPage() {
                   <Reveal stagger={90} as="ul" className="mt-6 grid gap-5 lg:grid-cols-2">
                     {featured.map((d) => (
                       <li key={d.id} className={featured.length === 1 ? "lg:col-span-2" : undefined}>
-                        <FeaturedDocument doc={d} readHref={readOnline[d.id]} />
+                        <FeaturedDocument doc={d} readHref={d.readHref} />
                       </li>
                     ))}
                   </Reveal>
